@@ -1,0 +1,36 @@
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+.ornament--dark {
+  color: var(--hunter-soft);
+}
+
+.ornament--dark .ornament__berry {
+  color: var(--merlot);
+}
+
+.ornament--light {
+  color: var(--sage);
+}
+
+.ornament--light .ornament__berry {
+  color: var(--sage-light);
+}
+
+.ornament__rule {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.ornament svg {
+  flex-shrink: 0;
+}

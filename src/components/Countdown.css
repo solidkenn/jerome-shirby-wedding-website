@@ -1,0 +1,133 @@
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.35rem, 2.5vw, 2.25rem);
+}
+
+.countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.countdown__face {
+  position: relative;
+  width: clamp(74px, 18vw, 124px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.countdown__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.countdown__ring-track,
+.countdown__ring-progress {
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.countdown__ring-track {
+  stroke: var(--sage);
+  opacity: 0.28;
+}
+
+.countdown__ring-progress {
+  stroke: var(--sage-light);
+  transition: stroke-dashoffset 0.9s linear;
+}
+
+.countdown__unit:last-child .countdown__ring-progress {
+  stroke: #d7a3a8;
+}
+
+.countdown__disc {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 38%, #fff, var(--ivory) 55%, var(--sage-pale));
+  color: var(--hunter-deep);
+  box-shadow:
+    inset 0 0 0 1px rgba(47, 79, 58, 0.08),
+    0 14px 28px -16px rgba(0, 0, 0, 0.7);
+}
+
+.countdown__value {
+  display: inline-flex;
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 3.4vw, 2.15rem);
+  font-weight: 500;
+  line-height: 1;
+  height: 1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown__digit {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  width: 0.62em;
+  text-align: center;
+}
+
+.countdown__stack {
+  display: block;
+}
+
+.countdown__stack span {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+.countdown__stack--go {
+  animation: countdownRoll 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes countdownRoll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.countdown__label {
+  margin-top: 0.75rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.countdown__done {
+  font-size: 2.4rem;
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  .countdown__label {
+    letter-spacing: 0.14em;
+    font-size: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown__stack--go {
+    animation: none;
+  }
+
+  .countdown__ring-progress {
+    transition: none;
+  }
+}
