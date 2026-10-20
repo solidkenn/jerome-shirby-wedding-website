@@ -112,10 +112,35 @@
 
 .hero__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.hero__actions-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: stretch;
+  gap: 0.65rem;
+  width: min(100%, 26rem);
+}
+
+.hero__actions-row .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 0.75rem;
+  font-size: clamp(0.58rem, 2.4vw, 0.8rem);
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.hero__actions-rsvp {
+  align-self: center;
+  width: min(100%, 17.5rem);
 }
 
 .hero__scroll {
@@ -450,10 +475,9 @@
     letter-spacing: 0.1em;
   }
 
-  .hero__actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: min(100%, 280px);
+  .hero__actions-rsvp {
+    width: 100%;
+    max-width: 17.5rem;
   }
 
   .story::before {

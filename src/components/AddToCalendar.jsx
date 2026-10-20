@@ -30,7 +30,8 @@ export default function AddToCalendar({ className = 'btn btn--ghost' }) {
     const year = weddingDate.getFullYear()
     const month = weddingDate.getMonth()
     const day = weddingDate.getDate()
-    const start = new Date(Date.UTC(year, month, day, weddingDate.getHours() - 8, weddingDate.getMinutes(), 0))
+    // Fixed Philippine time (UTC+8): ceremony 2:00 PM, reception through 10:00 PM.
+    const start = new Date(Date.UTC(year, month, day, 14 - 8, 0, 0))
     const end = new Date(Date.UTC(year, month, day, 22 - 8, 0, 0))
 
     const location = `${venueHall}, ${ceremony.venue}, ${ceremony.address}`
@@ -63,7 +64,10 @@ export default function AddToCalendar({ className = 'btn btn--ghost' }) {
     const link = document.createElement('a')
     link.href = url
     link.download = file.name
+    link.rel = 'noopener'
+    document.body.appendChild(link)
     link.click()
+    link.remove()
     URL.revokeObjectURL(url)
   }
 

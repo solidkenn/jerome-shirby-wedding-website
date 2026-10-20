@@ -57,13 +57,15 @@ export default function Home() {
             {ceremony.venue} &middot; {ceremony.address.split(',').slice(-2).join(',').trim()}
           </p>
           <div className="hero__actions fade-up" data-delay="3">
-            <Link to="/rsvp" className="btn btn--primary">
+            <div className="hero__actions-row">
+              <Link to="/details" className="btn btn--light">
+                View Details
+              </Link>
+              <AddToCalendar className="btn btn--light" />
+            </div>
+            <Link to="/rsvp" className="btn btn--primary hero__actions-rsvp">
               RSVP
             </Link>
-            <Link to="/details" className="btn btn--light">
-              View Details
-            </Link>
-            <AddToCalendar className="btn btn--light" />
           </div>
         </div>
 
