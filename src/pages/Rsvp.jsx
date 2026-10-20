@@ -86,12 +86,13 @@ export default function Rsvp() {
 
     try {
       if (rsvpEndpoint) {
-        const res = await fetch(rsvpEndpoint, {
+        // Google Apps Script: form body avoids CORS preflight; no-cors cannot read the response.
+        await fetch(rsvpEndpoint, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload),
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: new URLSearchParams({ data: JSON.stringify(payload) }).toString(),
         })
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       } else {
         // Demo mode: keep responses locally so the flow can be tested without a backend.
         await new Promise((r) => setTimeout(r, 700))

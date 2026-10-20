@@ -63,17 +63,26 @@
     transform 0.4s ease;
 }
 
-.gallery__btn:hover img,
 .gallery__btn:focus-visible img {
   transform: scale(1.05);
 }
 
-.gallery__btn:hover::after,
-.gallery__btn:hover .gallery__caption,
 .gallery__btn:focus-visible::after,
 .gallery__btn:focus-visible .gallery__caption {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (hover: hover) {
+  .gallery__btn:hover img {
+    transform: scale(1.05);
+  }
+
+  .gallery__btn:hover::after,
+  .gallery__btn:hover .gallery__caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gallery__btn:focus-visible {
@@ -90,7 +99,11 @@
   place-items: center;
   background: rgba(31, 54, 40, 0.94);
   backdrop-filter: blur(6px);
-  padding: 1.5rem;
+  padding:
+    max(1.5rem, env(safe-area-inset-top))
+    max(1.5rem, env(safe-area-inset-right))
+    max(1.5rem, env(safe-area-inset-bottom))
+    max(1.5rem, env(safe-area-inset-left));
   animation: fadeIn 0.25s ease;
 }
 
@@ -162,8 +175,8 @@
 }
 
 .lightbox__close {
-  top: 1.25rem;
-  right: 1.25rem;
+  top: max(1.25rem, env(safe-area-inset-top));
+  right: max(1.25rem, env(safe-area-inset-right));
 }
 
 .lightbox__nav {
@@ -181,13 +194,44 @@
   right: 1.25rem;
 }
 
+@media (max-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    grid-auto-rows: 210px;
+  }
+}
+
 @media (max-width: 640px) {
   .lightbox__nav {
     top: auto;
-    bottom: 1.25rem;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
     transform: none;
   }
+  .lightbox__nav--prev {
+    left: max(1.25rem, env(safe-area-inset-left));
+  }
+  .lightbox__nav--next {
+    right: max(1.25rem, env(safe-area-inset-right));
+  }
+  .lightbox__figure {
+    padding-bottom: 4rem;
+  }
   .lightbox__figure img {
-    max-height: 66vh;
+    max-height: 62vh;
+    max-height: 62dvh;
+  }
+  .lightbox__figure figcaption {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 150px;
+    gap: 0.6rem;
   }
 }

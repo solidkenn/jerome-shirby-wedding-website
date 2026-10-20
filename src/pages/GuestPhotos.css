@@ -1,0 +1,9 @@
+.guest-photos-grid--hidden {
+  display: none !important;
+}
+
+.guest-photos-grid__empty {
+  text-align: center;
+  margin-inline: auto;
+  max-width: 40ch;
+}

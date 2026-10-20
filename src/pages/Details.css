@@ -29,6 +29,158 @@
   background: linear-gradient(90deg, var(--aubergine), var(--merlot));
 }
 
+.venue-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.venue--merged {
+  width: min(100%, 720px);
+  margin-inline: auto;
+}
+
+.venue--merged .venue__body {
+  text-align: center;
+}
+
+.venue--merged .venue__map {
+  justify-self: center;
+}
+
+.venue__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.venue__actions .venue__map {
+  margin-top: 0;
+}
+
+.venue__band--merged {
+  background: linear-gradient(90deg, var(--hunter), var(--sage), var(--aubergine), var(--merlot));
+}
+
+.venue__hall {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: var(--hunter-deep);
+}
+
+.details-block {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.details-card {
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  display: grid;
+  gap: 1.1rem;
+}
+
+.details-card__lead {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hunter-deep);
+  text-align: center;
+}
+
+.details-card__text {
+  color: var(--muted);
+  text-align: center;
+  max-width: 62ch;
+  margin-inline: auto;
+}
+
+.details-card__text--prose {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.details-card__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.details-contacts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  text-align: center;
+}
+
+.details-contacts li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.35rem 0.5rem;
+}
+
+.details-contacts__name {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--hunter-deep);
+}
+
+.details-contacts__phone {
+  color: var(--merlot);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.details-contacts__phone:hover {
+  color: var(--hunter-deep);
+}
+
+.details-contacts__method {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.details-motif-label {
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+
+.venue__schedule {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.venue__schedule-title {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.venue__schedule li {
+  display: grid;
+  gap: 0.35rem;
+}
+
 .venue__body {
   padding: 2rem;
   display: grid;
@@ -59,67 +211,6 @@
 .venue__map {
   justify-self: start;
   margin-top: 1rem;
-}
-
-/* Timeline */
-.schedule {
-  list-style: none;
-  margin: 0 auto;
-  padding: 0;
-  max-width: 620px;
-  position: relative;
-}
-
-.schedule::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 120px;
-  width: 1px;
-  background: rgba(156, 175, 136, 0.4);
-}
-
-.schedule__item {
-  display: grid;
-  grid-template-columns: 100px 40px 1fr;
-  align-items: center;
-  padding-block: 0.9rem;
-}
-
-.schedule__time {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  text-align: right;
-  color: var(--sage-light);
-}
-
-.schedule__dot {
-  justify-self: center;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--sage);
-  box-shadow: 0 0 0 5px var(--hunter-deep);
-  position: relative;
-  z-index: 1;
-}
-
-.schedule__label {
-  font-size: 1.05rem;
-  color: var(--ivory);
-}
-
-@media (max-width: 480px) {
-  .schedule::before {
-    left: 84px;
-  }
-  .schedule__item {
-    grid-template-columns: 64px 40px 1fr;
-  }
-  .schedule__time {
-    font-size: 1rem;
-  }
 }
 
 /* Dress code */
@@ -166,83 +257,82 @@
   color: var(--muted);
 }
 
-.dress-note {
-  margin-top: 2.5rem;
-  text-align: center;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--merlot);
-}
-
-/* FAQ */
-.faq-wrap {
-  max-width: 780px;
-}
-
-.faq {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-
-.faq__item {
-  border-bottom: 1px solid var(--line);
-}
-
-.faq__q {
-  width: 100%;
+.swatches.swatches--motif {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.3rem 0.25rem;
-  background: none;
-  border: 0;
-  text-align: left;
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  color: var(--hunter-deep);
-  transition: color 0.2s ease;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 720px;
+  grid-template-columns: unset;
 }
 
-.faq__q:hover {
-  color: var(--merlot);
+.swatches.swatches--motif .swatch {
+  flex: 0 1 140px;
+  width: min(140px, 42vw);
 }
 
-.faq__icon {
-  position: relative;
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+@media (max-width: 768px) {
+  .venue__body {
+    padding: 1.6rem 1.4rem;
+  }
+
+  .venue__body h3 {
+    font-size: 1.45rem;
+  }
+
+  .venue__hall {
+    font-size: 1.3rem;
+  }
+
+  .details-card__lead {
+    font-size: 1.05rem;
+  }
+
+  .details-card__text--prose {
+    font-size: 1.05rem;
+    text-align: left;
+  }
+
+  .swatches.swatches--motif {
+    gap: 1.25rem 1rem;
+  }
+
+  .swatches.swatches--motif .swatch {
+    flex-basis: 100px;
+    width: 100px;
+  }
+
+  .swatches--motif .swatch__color {
+    max-width: 88px;
+  }
+
+  .swatches--motif .swatch__name {
+    font-size: 1.05rem;
+  }
 }
 
-.faq__icon::before,
-.faq__icon::after {
-  content: '';
-  position: absolute;
-  inset: 50% auto auto 0;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transition: transform 0.3s ease;
+@media (max-width: 480px) {
+  .details-contacts {
+    gap: 1.1rem;
+  }
+
+  .details-contacts li {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+  }
+
+  .details-contacts__phone {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-size: 1.05rem;
+  }
+
+  .details-card__actions .btn,
+  .venue__actions,
+  .venue__actions .btn {
+    width: 100%;
+  }
 }
 
-.faq__icon::after {
-  transform: rotate(90deg);
-}
-
-.faq__item--open .faq__icon::after {
-  transform: rotate(0deg);
-}
-
-.faq__a {
-  padding: 0 0.25rem 1.4rem;
-  color: var(--muted);
-  max-width: 62ch;
-}
-
-.faq-cta {
-  margin-top: 3.5rem;
-}

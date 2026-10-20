@@ -31,4 +31,21 @@
   font-style: italic;
   font-size: 1.15rem;
   color: var(--sage-light);
+  max-width: 36ch;
+}
+
+@media (max-width: 1024px) {
+  .page-hero {
+    padding: calc(7.5rem + env(safe-area-inset-top)) 0 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: calc(6.25rem + env(safe-area-inset-top)) 0 3rem;
+  }
+
+  .page-hero__sub {
+    font-size: 1.05rem;
+  }
 }

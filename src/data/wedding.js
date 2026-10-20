@@ -9,75 +9,70 @@ export const couple = {
 // Local time of the ceremony. Month is 0-indexed (1 = February).
 export const weddingDate = new Date(2027, 1, 21, 14, 0, 0)
 
-export const rsvpDeadline = new Date(2027, 0, 21)
+export const rsvpDeadline = new Date(2026, 10, 30)
+
+export const venueHall = "Arturo's Hall"
+
+const fourHillsVenue = 'Four Hills Villas and Events Place'
+const fourHillsAddress = 'Cabangaan Road, Tagaytay City, 4120 Cavite'
+const fourHillsMapUrl = 'https://maps.google.com/?q=Four+Hills+Villas+and+Events+Place+Tagaytay+Cavite'
+const fourHillsImage = '/venues/four-hills.jpg'
+const fourHillsImageAlt = 'The Four Hills Villas and Events Place entrance'
 
 export const events = [
   {
     id: 'ceremony',
     title: 'The Ceremony',
     time: '2:00 PM',
-    venue: 'Our Lady of Peace Chapel',
-    address: 'Chapel Road, Tagaytay City, Cavite',
-    mapUrl: 'https://maps.google.com/?q=Tagaytay+City',
+    venue: fourHillsVenue,
+    address: fourHillsAddress,
+    mapUrl: fourHillsMapUrl,
     note: 'Kindly be seated by 1:30 PM. The ceremony will begin promptly.',
-    image: '/venues/ceremony.jpg',
-    imageAlt: 'Placeholder photo of a chapel prepared for the wedding ceremony',
+    image: fourHillsImage,
+    imageAlt: fourHillsImageAlt,
   },
   {
     id: 'reception',
     title: 'The Reception',
     time: '5:00 PM',
-    venue: 'The Glasshouse Garden Pavilion',
-    address: 'Ridge Drive, Tagaytay City, Cavite',
-    mapUrl: 'https://maps.google.com/?q=Tagaytay+City',
-    note: 'Dinner, dancing, and a toast or two beneath the string lights.',
-    image: '/venues/reception.jpg',
-    imageAlt: 'Placeholder photo of a glass pavilion set for the wedding reception',
+    venue: fourHillsVenue,
+    address: fourHillsAddress,
+    mapUrl: fourHillsMapUrl,
+    note: 'Dinner, dancing, and a toast or two at the same venue.',
+    image: fourHillsImage,
+    imageAlt: fourHillsImageAlt,
   },
-]
-
-export const timeline = [
-  { time: '1:30 PM', label: 'Guests arrive & seating' },
-  { time: '2:00 PM', label: 'Wedding ceremony' },
-  { time: '3:30 PM', label: 'Photos with the newlyweds' },
-  { time: '5:00 PM', label: 'Cocktails at the pavilion' },
-  { time: '6:00 PM', label: 'Grand entrance & dinner' },
-  { time: '7:30 PM', label: 'Toasts, first dance & party' },
-  { time: '10:00 PM', label: 'Send-off' },
 ]
 
 export const palette = [
-  { name: 'Hunter Green', hex: '#2f4f3a' },
-  { name: 'Sage Green', hex: '#9caf88' },
-  { name: 'Aubergine', hex: '#4b2840' },
-  { name: 'Merlot', hex: '#73262f' },
+  { name: 'Dusty Rose', hex: '#B38885' },
+  { name: 'Muted Mauve', hex: '#A38284' },
+  { name: 'Champagne', hex: '#DFC0A7' },
+  { name: 'Warm Taupe', hex: '#A88A75' },
+  { name: 'Terracotta', hex: '#937060' },
+  { name: 'Pale Peach', hex: '#EFD6CA' },
 ]
 
 export const dressCode = {
-  title: 'Formal Attire',
+  title: 'Strictly Formal',
   guidance:
-    'We would love to see our guests dressed in the colors of our motif. Ladies may wear long gowns or cocktail dresses; gentlemen may wear a suit or a barong with slacks.',
-  avoid: 'Please avoid wearing white, ivory, or champagne, which are reserved for the bride.',
+    'Ladies are kindly encouraged to wear a shade from our suggested color palette below, thoughtfully chosen to complement the beauty and elegance of our celebration.',
 }
 
-export const faqs = [
-  {
-    q: 'Can I bring a plus one?',
-    a: 'Due to limited seating, we can only accommodate the guests named on your invitation. Please indicate your total party size when you RSVP.',
-  },
-  {
-    q: 'Is there parking at the venue?',
-    a: 'Yes. Both the chapel and the pavilion have complimentary parking for guests.',
-  },
-  {
-    q: 'What about gifts?',
-    a: 'Your presence is the greatest gift. Should you wish to give more, a monetary gift toward our new home together would be warmly appreciated.',
-  },
-  {
-    q: 'Will the celebration be indoors or outdoors?',
-    a: 'The ceremony is indoors. The reception is under a covered glass pavilion surrounded by gardens, so a light wrap is recommended for the evening breeze.',
-  },
-]
+export const rsvpInfo = {
+  reserved:
+    'We have reserved your seat/s as indicated on your invitation. The favor of your reply is requested by the 30th of November.',
+  confirm:
+    'Kindly confirm your attendance with any of the following individuals, with the names of your attending guests to assist us in arranging your seating. You may also RSVP online using the form on this website.',
+  contacts: [
+    { name: 'Shirby Sy', phone: '+1 587 664 0632', method: 'Viber' },
+    { name: 'Jannette Sy', phone: '0927 429 1306', method: 'Call or Viber' },
+    { name: 'Maegan Co', phone: '0917 791 0782', method: 'Viber' },
+  ],
+}
+
+export const giftsMessage =
+  'Your presence is the greatest gift we could ask for, and sharing this special day with you means so much to us. Should you wish to extend a gesture of love, a monetary gift would be sincerely appreciated, as we will be bringing your kindness home with us to Canada. Above all, we treasure your love and presence.'
 
 export const accommodations = [
   {
@@ -144,34 +139,58 @@ export const gallery = [
 
 export const entourage = {
   parents: {
-    groom: ['Mr. Roberto Villanueva', 'Mrs. Maria Elena Villanueva'],
-    bride: ['Mr. Antonio Reyes', 'Mrs. Carmela Reyes'],
+    groom: ['Mr. Norberto B. Quiñosa', 'Mrs. Alfina A. Quiñosa'],
+    bride: ['Mr. Renato T. Sy', 'Mrs. Jannete Y. Sy'],
   },
   principalSponsors: [
-    ['Mr. Eduardo Santos', 'Mrs. Lourdes Santos'],
-    ['Mr. Ferdinand Cruz', 'Mrs. Josefina Cruz'],
-    ['Mr. Ramon Dela Cruz', 'Mrs. Teresita Dela Cruz'],
-    ['Mr. Alfredo Mendoza', 'Mrs. Rosario Mendoza'],
-    ['Mr. Benjamin Garcia', 'Mrs. Angelita Garcia'],
-    ['Mr. Vicente Torres', 'Mrs. Corazon Torres'],
+    ['Dr. Edwin Anthony Francis J. Agsaoay', 'Dr. Dorothy Dy Ching Bing-Agsaoay'],
+    ['Mr. Gerie T. Chua', 'Mrs. Rosemarie L. Chua'],
+    ['Ar. Alejandro O. Cua', 'Mrs. Helen U. Cua'],
+    ['Dr. Aldrin C. Cuña', 'Mrs. Christy Boot'],
+    ['Mr. Hebert Magsino', 'Mrs. Esther Melody R. Nicolas'],
+    ['Mr. Roberto P. Nicdao', 'Mrs. Adoracion R. Nicdao'],
+    ['Mr. Anson G. Ong', 'Mrs. Consuelo K. Ong'],
+    ['Mr. Tomas Pedro P. Reginaldo Jr.', 'Dr. Carmina Ann J. Cortez'],
+    ['Mr. Akash Deep Singh', 'Mrs. Baljeet Kaur'],
+    ['Mr. Jefferson T. Tiu', 'Mrs. Jennifer T. Tiu'],
   ],
-  bestMan: 'Miguel Villanueva',
-  maidOfHonor: 'Katrina Reyes',
-  groomsmen: ['Paolo Santiago', 'Christian Lim', 'Daniel Ocampo', 'Marco Fernandez', 'Joshua Bautista'],
-  bridesmaids: ['Andrea Castillo', 'Bianca Ramos', 'Camille Aquino', 'Denise Navarro', 'Erika Salazar'],
+  bestMan: 'Mr. Jason A. Quiñosa',
+  maidOfHonor: 'Ms. Chelsea Mae Y. Sy',
+  groomsmen: [
+    'Mr. Joshua A. Quiñosa',
+    'Mr. Gerard Anthony C. Vargas',
+    'Mr. Joey A. Midel',
+    'Mr. Joshua Anthony C. Co',
+    'Mr. Kevin B. Wan',
+    'Mr. Kurtis D. Wong',
+  ],
+  bridesmaids: [
+    'Ms. Trisha Mae B. Quiñosa',
+    'Mrs. Rizalina Q. Au Yeung',
+    'Ms. Riza Leera Q. Au Yeung',
+    'Ms. Gemima Pearl O. Domingo',
+    'Ms. Pauline Kayla Ragmat',
+    'Ms. Grace Margaret F. Ona',
+  ],
   secondarySponsors: {
-    candle: ['Gabriel Soriano', 'Hannah Villegas'],
-    veil: ['Ivan Domingo', 'Jasmine Pascual'],
-    cord: ['Kevin Rivera', 'Lorraine Mercado'],
+    candle: ['Mr. Kenneth S. Solidum', 'Ms. Kyla Gail T. Sy'],
+    veil: ['Mr. Symon Jervis O. Chan', 'Dr. Krisan Mariz M. Sio'],
+    cord: ['Mr. Glen Clifford C. Tan', 'Ms. Maegan Helaena G. Co'],
   },
   bearers: {
-    ring: 'Lucas Villanueva',
-    coin: 'Nathan Reyes',
-    bible: 'Elijah Santos',
+    ring: 'Damian Alvy R. Sy',
+    coin: 'Mikhael Judah M. Sio',
+    bible: 'Mikhael Caleb M. Sio',
   },
-  flowerGirls: ['Sophia Cruz', 'Isabella Mendoza', 'Olivia Garcia'],
+  flowerGirls: ['Rianne Gerrica L. Chua'],
 }
 
-// Optional: paste a Formspree, Getform, or Google Apps Script endpoint here to receive RSVPs by email.
-// Leave empty to keep the form in demo mode (responses are stored in the browser only).
-export const rsvpEndpoint = ''
+// Google Apps Script web app URL (Deploy → Web app). Leave empty for demo mode (localStorage only).
+export const rsvpEndpoint =
+  'https://script.google.com/macros/s/AKfycbwcPeTrENhKsTOf1QsrPswH4nba4rZEnn6yZVTqdbSHXLBgVPW1S4KhFkjoOoDHc_J7/exec'
+
+// Guest photo uploads (Vercel Blob API from API/files). Set VITE_UPLOAD_URL in .env — see .env.example.
+export const uploadApiUrl = import.meta.env.VITE_UPLOAD_URL || ''
+export const uploadMaxFiles = 10
+/** When true, the “Uploaded Photos” grid on Gallery is visible to guests. */
+export const showUploadedGallery = false

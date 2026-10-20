@@ -23,6 +23,7 @@ export default function Footer() {
         <nav className="footer__links">
           <Link to="/details">Details</Link>
           <Link to="/gallery">Gallery</Link>
+          <Link to="/share-photos">Share Photos</Link>
           <Link to="/entourage">Entourage</Link>
           <Link to="/rsvp">RSVP</Link>
         </nav>

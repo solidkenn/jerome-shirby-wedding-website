@@ -7,6 +7,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/details', label: 'Details' },
   { to: '/gallery', label: 'Gallery' },
+  { to: '/share-photos', label: 'Share Photos' },
   { to: '/entourage', label: 'Entourage' },
   { to: '/rsvp', label: 'RSVP' },
 ]
@@ -22,6 +23,15 @@ export default function Navbar() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1025px)')
+    const onChange = (e) => {
+      if (e.matches) setOpen(false)
+    }
+    desktop.addEventListener('change', onChange)
+    return () => desktop.removeEventListener('change', onChange)
   }, [])
 
   useEffect(() => {

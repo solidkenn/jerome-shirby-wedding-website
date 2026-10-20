@@ -116,6 +116,18 @@
 }
 
 @media (max-width: 420px) {
+  .countdown {
+    gap: 0.5rem;
+  }
+
+  .countdown__face {
+    width: clamp(58px, 19vw, 74px);
+  }
+
+  .countdown__value {
+    font-size: clamp(1.1rem, 5.6vw, 1.35rem);
+  }
+
   .countdown__label {
     letter-spacing: 0.14em;
     font-size: 0.6rem;

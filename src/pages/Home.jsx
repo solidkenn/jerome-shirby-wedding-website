@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { couple, weddingDate, events, story, rsvpDeadline } from '../data/wedding.js'
+import AddToCalendar from '../components/AddToCalendar.jsx'
 import Countdown from '../components/Countdown.jsx'
 import Ornament from '../components/Ornament.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
@@ -62,6 +63,7 @@ export default function Home() {
             <Link to="/details" className="btn btn--light">
               View Details
             </Link>
+            <AddToCalendar className="btn btn--light" />
           </div>
         </div>
 
@@ -107,34 +109,30 @@ export default function Home() {
       {/* Glance */}
       <section className="section section--tint">
         <div className="container">
-          <SectionHeading eyebrow="The day" title="At a glance" />
-          <div className="glance">
-            <article className="glance__card card">
-              <figure className="glance__photo">
-                <img src={ceremony.image} alt={ceremony.imageAlt} />
-              </figure>
-              <div className="glance__body">
-                <p className="eyebrow">Ceremony</p>
-                <h3>{ceremony.venue}</h3>
-                <p className="glance__time">{ceremony.time}</p>
-                <p className="glance__addr">{ceremony.address}</p>
-              </div>
-            </article>
-            <div className="glance__divider" aria-hidden="true">
-              <span className="script">then</span>
+          <SectionHeading
+            eyebrow="The day"
+            title="At a glance"
+            lead="Ceremony and reception at the same venue."
+          />
+          <article className="glance glance--merged card">
+            <figure className="glance__photo">
+              <img src={ceremony.image} alt={ceremony.imageAlt} />
+            </figure>
+            <div className="glance__body">
+              <h3>{ceremony.venue}</h3>
+              <p className="glance__addr">{ceremony.address}</p>
+              <ul className="glance__schedule">
+                <li>
+                  <p className="glance__schedule-label">{ceremony.title}</p>
+                  <p className="glance__time">{ceremony.time}</p>
+                </li>
+                <li>
+                  <p className="glance__schedule-label">{reception.title}</p>
+                  <p className="glance__time">{reception.time}</p>
+                </li>
+              </ul>
             </div>
-            <article className="glance__card card">
-              <figure className="glance__photo">
-                <img src={reception.image} alt={reception.imageAlt} />
-              </figure>
-              <div className="glance__body">
-                <p className="eyebrow">Reception</p>
-                <h3>{reception.venue}</h3>
-                <p className="glance__time">{reception.time}</p>
-                <p className="glance__addr">{reception.address}</p>
-              </div>
-            </article>
-          </div>
+          </article>
           <div className="text-center glance__cta">
             <Link to="/details" className="btn btn--ghost">
               Full details
