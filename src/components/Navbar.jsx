@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
-import { couple } from '../data/wedding.js'
+import { couple, guestPhotosEnabled } from '../data/wedding.js'
 import './Navbar.css'
 
-const links = [
+const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/details', label: 'Details' },
   { to: '/gallery', label: 'Gallery' },
-  { to: '/share-photos', label: 'Share Photos' },
+  ...(guestPhotosEnabled ? [{ to: '/share-photos', label: 'Share Photos' }] : []),
   { to: '/entourage', label: 'Entourage' },
   { to: '/rsvp', label: 'RSVP' },
 ]
@@ -67,7 +67,7 @@ export default function Navbar() {
         </button>
 
         <nav id="site-nav" className="nav__links">
-          {links.map(({ to, label }) => (
+          {navLinks.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}

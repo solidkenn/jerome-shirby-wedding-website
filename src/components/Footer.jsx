@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { couple, weddingDate } from '../data/wedding.js'
+import { couple, guestPhotosEnabled, weddingDate } from '../data/wedding.js'
 import Ornament from './Ornament.jsx'
 import './Footer.css'
 
@@ -23,7 +23,7 @@ export default function Footer() {
         <nav className="footer__links">
           <Link to="/details">Details</Link>
           <Link to="/gallery">Gallery</Link>
-          <Link to="/share-photos">Share Photos</Link>
+          {guestPhotosEnabled && <Link to="/share-photos">Share Photos</Link>}
           <Link to="/entourage">Entourage</Link>
           <Link to="/rsvp">RSVP</Link>
         </nav>

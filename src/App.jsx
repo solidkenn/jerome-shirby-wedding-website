@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Navigate, Routes, Route } from 'react-router-dom'
+import { guestPhotosEnabled } from './data/wedding.js'
 import Layout from './components/Layout.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Home from './pages/Home.jsx'
@@ -18,7 +19,10 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="details" element={<Details />} />
           <Route path="gallery" element={<Gallery />} />
-          <Route path="share-photos" element={<GuestPhotos />} />
+          <Route
+            path="share-photos"
+            element={guestPhotosEnabled ? <GuestPhotos /> : <Navigate to="/" replace />}
+          />
           <Route path="entourage" element={<Entourage />} />
           <Route path="rsvp" element={<Rsvp />} />
           <Route path="*" element={<NotFound />} />
