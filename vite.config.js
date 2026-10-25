@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api/upload': {
-          target: env.VITE_UPLOAD_PROXY_TARGET || 'https://uploadtesting.vercel.app',
+          target: env.VITE_UPLOAD_PROXY_TARGET || 'https://uploadtesting-mu.vercel.app',
           changeOrigin: true,
         },
       },
