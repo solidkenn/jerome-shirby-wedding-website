@@ -191,7 +191,7 @@ export const rsvpEndpoint =
 
 // Guest photo uploads (Vercel Blob API from API/files). Set VITE_UPLOAD_URL in .env — see .env.example.
 /** When false, /share-photos is hidden and uploads are disabled site-wide. */
-export const guestPhotosEnabled = false
+export const guestPhotosEnabled = true
 export const uploadApiUrl = guestPhotosEnabled ? import.meta.env.VITE_UPLOAD_URL || '' : ''
 export const uploadMaxFiles = 10
 /** When true, the “Uploaded Photos” grid on Gallery is visible to guests. */
