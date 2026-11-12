@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { couple, weddingDate, events, story, rsvpDeadline } from '../data/wedding.js'
+import { couple, weddingDate, events, rsvpDeadline } from '../data/wedding.js'
+import FilmStrip from '../components/FilmStrip.jsx'
 import AddToCalendar from '../components/AddToCalendar.jsx'
 import Countdown from '../components/Countdown.jsx'
 import Ornament from '../components/Ornament.jsx'
@@ -85,27 +86,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Story */}
-      <section className="section">
+      {/* Mini gallery — looping film strip */}
+      <section className="section home-film" aria-label="Photo highlights">
         <div className="container">
-          <SectionHeading eyebrow="Our story" title="How we got here" />
-          <ol className="story">
-            {story.map((s, i) => (
-              <li className="story__item" key={s.year} style={{ '--i': i }}>
-                <div className="story__marker">
-                  <span className="story__year">{s.year}</span>
-                </div>
-                <figure className="story__photo">
-                  <img src={s.image} alt={s.imageAlt} />
-                </figure>
-                <div className="story__body card">
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <SectionHeading eyebrow="Moments" title="A glimpse of us" />
+          <p className="home-film__lead lead">A few favorite frames from our journey together.</p>
+          <div className="text-center home-film__cta">
+            <Link to="/gallery" className="btn btn--ghost">
+              View gallery
+            </Link>
+          </div>
         </div>
+        <FilmStrip />
       </section>
 
       {/* Glance */}

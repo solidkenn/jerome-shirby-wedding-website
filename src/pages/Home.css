@@ -189,7 +189,20 @@
   margin-right: 0.15em;
 }
 
-/* Story timeline */
+.home-film .container {
+  text-align: center;
+}
+
+.home-film__lead {
+  margin: -0.5rem auto 1.25rem;
+  max-width: 42ch;
+}
+
+.home-film__cta {
+  margin-bottom: 0.5rem;
+}
+
+/* Story timeline (unused on home — kept for reference if re-enabled) */
 .story {
   list-style: none;
   margin: 0;

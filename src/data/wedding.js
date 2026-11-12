@@ -145,16 +145,26 @@ export const story = [
 // or point the src fields at any hosted image URL.
 // Tip: with two `tall` photos in positions 1 and 6 the grid fills evenly at 4, 3, and 1 columns.
 export const gallery = [
-  { src: 'https://picsum.photos/seed/js-01/900/1200', alt: 'Jerome and Shirby at the ridge', tall: true },
-  { src: 'https://picsum.photos/seed/js-02/1200/900', alt: 'Laughing together in the garden' },
-  { src: 'https://picsum.photos/seed/js-03/900/900', alt: 'A quiet moment' },
-  { src: 'https://picsum.photos/seed/js-04/1200/900', alt: 'Walking hand in hand' },
-  { src: 'https://picsum.photos/seed/js-05/1200/900', alt: 'Golden hour portraits' },
-  { src: 'https://picsum.photos/seed/js-06/900/1200', alt: 'The ring', tall: true },
-  { src: 'https://picsum.photos/seed/js-07/1200/900', alt: 'Dancing in the kitchen' },
-  { src: 'https://picsum.photos/seed/js-08/900/900', alt: 'Under the trees' },
-  { src: 'https://picsum.photos/seed/js-09/900/900', alt: 'Sunday coffee' },
-  { src: 'https://picsum.photos/seed/js-10/1200/900', alt: 'Road trip to the coast' },
+  { src: '/gallery/js-01.jpg', alt: 'Jerome and Shirby at the ridge', tall: true },
+  { src: '/gallery/js-02.jpg', alt: 'Laughing together in the garden' },
+  { src: '/gallery/js-03.jpg', alt: 'A quiet moment' },
+  { src: '/gallery/js-04.jpg', alt: 'Walking hand in hand' },
+  { src: '/gallery/js-05.jpg', alt: 'Golden hour portraits' },
+  { src: '/gallery/js-06.jpg', alt: 'The ring', tall: true },
+  { src: '/gallery/js-07.jpg', alt: 'Dancing in the kitchen' },
+  { src: '/gallery/js-08.jpg', alt: 'Under the trees' },
+  { src: '/gallery/js-09.jpg', alt: 'Sunday coffee' },
+  { src: '/gallery/js-10.jpg', alt: 'Road trip to the coast' },
+  { src: '/gallery/js-11.jpg', alt: 'Sunset on the terrace' },
+  { src: '/gallery/js-12.jpg', alt: 'Bouquet details' },
+  { src: '/gallery/js-13.jpg', alt: 'Friends toasting at dinner' },
+  { src: '/gallery/js-14.jpg', alt: 'A quiet portrait by the window', tall: true },
+  { src: '/gallery/js-15.jpg', alt: 'Walking through the orchard' },
+  { src: '/gallery/js-16.jpg', alt: 'Table setting in candlelight' },
+  { src: '/gallery/js-17.jpg', alt: 'First dance rehearsal' },
+  { src: '/gallery/js-18.jpg', alt: 'Morning light in the garden' },
+  { src: '/gallery/js-19.jpg', alt: 'Looking out over the hills', tall: true },
+  { src: '/gallery/js-20.jpg', alt: 'Hands and the invitation' },
 ]
 
 export const entourage = {
