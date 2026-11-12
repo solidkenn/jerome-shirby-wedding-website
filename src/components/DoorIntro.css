@@ -268,6 +268,15 @@ body.door-intro-lock {
   color: #e8d5a3;
 }
 
+.door-intro__hint {
+  margin: 1rem 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232, 213, 163, 0.75);
+}
+
 .door-intro--opening .door-intro__inscription,
 .door-intro--exiting .door-intro__inscription {
   opacity: 0;

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { couple, weddingDate } from '../data/wedding.js'
+import { requestBackgroundMusic } from '../lib/musicEvents.js'
 import './DoorIntro.css'
 
 const dateLabel = weddingDate.toLocaleDateString('en-US', {
@@ -60,9 +61,13 @@ function DoorFace({ name, side }) {
   )
 }
 
+const DOOR_OPEN_MS = 2600
+const EXIT_FADE_MS = 780
+
 export default function DoorIntro() {
   const [phase, setPhase] = useState('welcome')
   const timers = useRef([])
+  const opened = useRef(false)
 
   const clearTimers = () => {
     timers.current.forEach(clearTimeout)
@@ -78,14 +83,17 @@ export default function DoorIntro() {
   const dismiss = () => {
     clearTimers()
     setPhase('exiting')
-    schedule(() => setPhase('gone'), 780)
+    schedule(() => setPhase('gone'), EXIT_FADE_MS)
   }
 
-  const openDoors = () => {
-    setPhase((current) => {
-      if (current === 'exiting' || current === 'gone') return current
-      return 'opening'
-    })
+  const beginOpen = () => {
+    if (opened.current) return
+    opened.current = true
+    requestBackgroundMusic()
+    clearTimers()
+    setPhase('opening')
+    schedule(() => setPhase('exiting'), DOOR_OPEN_MS)
+    schedule(() => setPhase('gone'), DOOR_OPEN_MS + EXIT_FADE_MS)
   }
 
   useEffect(() => {
@@ -96,12 +104,13 @@ export default function DoorIntro() {
     }
 
     schedule(() => setPhase('lit'), 450)
-    schedule(openDoors, 1400)
-    schedule(() => setPhase('exiting'), 4000)
-    schedule(() => setPhase('gone'), 4900)
 
     const onKey = (event) => {
-      if (event.key === 'Escape' || event.key === 'Enter') dismiss()
+      if (event.key === 'Escape') {
+        dismiss()
+        return
+      }
+      if (event.key === 'Enter') beginOpen()
     }
     window.addEventListener('keydown', onKey)
 
@@ -129,7 +138,6 @@ export default function DoorIntro() {
       role="dialog"
       aria-modal="true"
       aria-label="Welcome to the wedding of Jerome and Shirby"
-      onClick={dismiss}
     >
       <div className="door-intro__veil" aria-hidden="true" />
 
@@ -152,6 +160,9 @@ export default function DoorIntro() {
           <span className="script">{couple.bride}</span>
         </p>
         <p className="door-intro__date">{dateLabel}</p>
+        {(phase === 'welcome' || phase === 'lit') && (
+          <p className="door-intro__hint">Press Enter to open</p>
+        )}
       </div>
 
       <button
@@ -159,7 +170,7 @@ export default function DoorIntro() {
         className="door-intro__skip"
         onClick={(event) => {
           event.stopPropagation()
-          dismiss()
+          beginOpen()
         }}
       >
         Enter

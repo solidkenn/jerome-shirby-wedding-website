@@ -57,6 +57,26 @@ export const dressCode = {
   title: 'Strictly Formal',
   guidance:
     'Ladies are kindly encouraged to wear a shade from our suggested color palette below, thoughtfully chosen to complement the beauty and elegance of our celebration.',
+  requirements: [
+    {
+      for: 'Gentlemen',
+      detail: 'Suit and tie',
+      image: '/attire/suit-tie.jpg',
+      imageAlt: 'Illustration of a gentleman in a formal suit and tie',
+    },
+    {
+      for: 'Ladies',
+      detail: 'Long evening gowns',
+      image: '/attire/evening-gown.jpg',
+      imageAlt: 'Illustration of a long dusty-rose evening gown',
+    },
+  ],
+  notAllowed: {
+    for: 'Kindly avoid',
+    detail: 'No jeans, slippers, or sandals',
+    image: '/attire/not-allowed.jpg',
+    imageAlt: 'Illustration of jeans, slippers, and sandals marked as not allowed',
+  },
 }
 
 export const rsvpInfo = {
@@ -183,6 +203,14 @@ export const entourage = {
     bible: 'Mikhael Caleb M. Sio',
   },
   flowerGirls: ['Rianne Gerrica L. Chua'],
+}
+
+// Background music (file in public/music/). FLAC: best in Chrome/Firefox; some iOS versions prefer MP3.
+const musicFile = "Elvis Presley - Can't Help Falling In Love.flac"
+export const backgroundMusic = {
+  src: `/music/${encodeURIComponent(musicFile)}`,
+  title: "Can't Help Falling in Love",
+  artist: 'Elvis Presley',
 }
 
 // Google Apps Script web app URL (Deploy → Web app). Leave empty for demo mode (localStorage only).

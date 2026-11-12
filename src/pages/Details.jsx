@@ -59,6 +59,24 @@ export default function Details() {
       <section className="section section--tint">
         <div className="container details-block">
           <SectionHeading eyebrow="What to wear" title={dressCode.title} lead={dressCode.guidance} />
+          <ul className="dress-code">
+            {dressCode.requirements.map((item) => (
+              <li className="dress-code__card card" key={item.for}>
+                <figure className="dress-code__photo">
+                  <img src={item.image} alt={item.imageAlt} />
+                </figure>
+                <p className="dress-code__role">{item.for}</p>
+                <p className="dress-code__detail">{item.detail}</p>
+              </li>
+            ))}
+            <li className="dress-code__card dress-code__card--avoid card">
+              <figure className="dress-code__photo">
+                <img src={dressCode.notAllowed.image} alt={dressCode.notAllowed.imageAlt} />
+              </figure>
+              <p className="dress-code__role">{dressCode.notAllowed.for}</p>
+              <p className="dress-code__detail">{dressCode.notAllowed.detail}</p>
+            </li>
+          </ul>
           <p className="details-motif-label">Color motif</p>
           <ul className="swatches swatches--motif">
             {palette.map((c) => (
