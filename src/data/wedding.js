@@ -1,5 +1,7 @@
 // Central place for all wedding content. Edit the values here and every page updates.
 
+import { orderGalleryPhotos } from '../lib/galleryOrder.js'
+
 export const couple = {
   groom: 'Jerome',
   bride: 'Shirby',
@@ -141,32 +143,59 @@ export const story = [
   },
 ]
 
-// Photos live in public/gallery/. `tall` matches portrait orientation for the gallery grid and film strip.
+// Photos live in public/gallery/ (exclude js-*.jpg placeholders). `tall` = portrait for grid + film strip.
 function gallerySrc(filename) {
   return `/gallery/${encodeURIComponent(filename)}`
 }
 
-const galleryPhotos = [
-  { file: '20221223_112828.jpg', alt: 'Jerome and Shirby, December 2022', tall: true },
-  { file: '20240728_153016.jpg', alt: 'Jerome and Shirby, summer 2024', tall: true },
-  { file: '20240930_111331.jpg', alt: 'Jerome and Shirby, fall 2024', tall: true },
-  { file: '20240930_111719.jpg', alt: 'Jerome and Shirby by a glacial lake' },
-  { file: 'FB_IMG_1647630199521.jpg', alt: 'Jerome and Shirby, a candid moment' },
-  { file: 'IMG_0587.jpg', alt: 'Jerome and Shirby together' },
-  { file: 'IMG_0588.jpg', alt: 'Jerome and Shirby, out and about' },
-  { file: 'IMG_0591.jpg', alt: 'Jerome and Shirby smiling' },
-  { file: 'IMG_0595.jpg', alt: 'Jerome and Shirby, a favorite memory' },
-  { file: 'Image0577_002.jpg', alt: 'Jerome and Shirby at home' },
-  { file: 'received_1173829046333770.jpg', alt: 'Jerome and Shirby', tall: true },
-  { file: 'fxn 2026-10-04 175343FE35F23A23CE.jpg', alt: 'Jerome and Shirby', tall: true },
-  { file: 'fxn 2026-10-04 180100E80AD5A634AF.jpg', alt: 'Jerome and Shirby', tall: true },
-  { file: 'fxn 2026-10-04 1801110716FEC6561D.jpg', alt: 'Jerome and Shirby', tall: true },
-  { file: '20260712_105555.jpg', alt: 'Jerome and Shirby', tall: true },
-  { file: '20260726_170332.jpg', alt: 'Jerome and Shirby on an adventure' },
-  { file: '20260726_184320(1).jpg', alt: 'Jerome and Shirby, golden hour' },
+const galleryAltByFile = {
+  '20221223_112828.jpg': 'Jerome and Shirby, December 2022',
+  '20240728_153016.jpg': 'Jerome and Shirby, summer 2024',
+  '20240930_111331.jpg': 'Jerome and Shirby, fall 2024',
+  '20240930_111719.jpg': 'Jerome and Shirby by a glacial lake',
+  'FB_IMG_1647630199521.jpg': 'Jerome and Shirby, a candid moment',
+  'IMG_0587.jpg': 'Jerome and Shirby together',
+  'IMG_0588.jpg': 'Jerome and Shirby, out and about',
+  'IMG_0591.jpg': 'Jerome and Shirby smiling',
+  'IMG_0595.jpg': 'Jerome and Shirby, a favorite memory',
+  'Image0577_002.jpg': 'Jerome and Shirby at home',
+  '20260726_170332.jpg': 'Jerome and Shirby on an adventure',
+  '20260726_184320(1).jpg': 'Jerome and Shirby, golden hour',
+}
+
+/** Add new JPG filenames here after dropping them in public/gallery/. */
+const galleryFiles = [
+  { file: '20221223_112828.jpg', tall: true },
+  { file: '20240728_153016.jpg', tall: true },
+  { file: '20240930_111331.jpg', tall: true },
+  { file: '20240930_111719.jpg' },
+  { file: '20260712_080743.jpg' },
+  { file: '20260712_081913(1).jpg', tall: true },
+  { file: '20260712_105555.jpg', tall: true },
+  { file: '20260726_170332.jpg' },
+  { file: '20260726_184320(1).jpg' },
+  { file: 'FB_IMG_1647630199521.jpg' },
+  { file: 'IMG_0587.jpg' },
+  { file: 'IMG_0588.jpg' },
+  { file: 'IMG_0591.jpg' },
+  { file: 'IMG_0595.jpg' },
+  { file: 'IMG_0607.jpg', tall: true },
+  { file: 'IMG_0608.jpg' },
+  { file: 'IMG_0609.jpg', tall: true },
+  { file: 'Image0577_002.jpg' },
+  { file: 'received_1173829046333770.jpg', tall: true },
+  { file: 'fxn 2026-10-04 175343FE35F23A23CE.jpg', tall: true },
+  { file: 'fxn 2026-10-04 180100E80AD5A634AF.jpg', tall: true },
+  { file: 'fxn 2026-10-04 1801110716FEC6561D.jpg', tall: true },
 ]
 
-export const gallery = galleryPhotos.map(({ file, alt, tall }) => ({
+const galleryPhotos = galleryFiles.map(({ file, tall }) => ({
+  file,
+  alt: galleryAltByFile[file] ?? 'Jerome and Shirby',
+  ...(tall ? { tall: true } : {}),
+}))
+
+export const gallery = orderGalleryPhotos(galleryPhotos).map(({ file, alt, tall }) => ({
   src: gallerySrc(file),
   alt,
   ...(tall ? { tall: true } : {}),
