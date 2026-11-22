@@ -1,6 +1,6 @@
 // Central place for all wedding content. Edit the values here and every page updates.
 
-import { orderGalleryPhotos } from '../lib/galleryOrder.js'
+import { orderGalleryPhotos, packFilmStripColumns } from '../lib/galleryOrder.js'
 
 export const couple = {
   groom: 'Jerome',
@@ -199,6 +199,12 @@ export const gallery = orderGalleryPhotos(galleryPhotos).map(({ file, alt, tall 
   src: gallerySrc(file),
   alt,
   ...(tall ? { tall: true } : {}),
+}))
+
+export const filmStripGallery = packFilmStripColumns(galleryPhotos).map(({ file, alt, stripTall }) => ({
+  src: gallerySrc(file),
+  alt,
+  stripTall: Boolean(stripTall),
 }))
 
 export const entourage = {

@@ -61,46 +61,6 @@ function roundRobinByGroup(photos, seed = 0x6a736772) {
   return result
 }
 
-/**
- * Film strip uses column-major 3 rows: indices 0,3,6… share a horizontal row.
- * Swap items so batches rarely repeat within the same row.
- */
-function spreadFilmStripRows(photos, rows = 3) {
-  const result = [...photos]
-  const n = result.length
-  const conflicts = (idx) => {
-    const row = idx % rows
-    const key = galleryGroupKey(result[idx].file)
-    let count = 0
-    for (let j = row; j < n; j += rows) {
-      if (j !== idx && galleryGroupKey(result[j].file) === key) count += 1
-    }
-    return count
-  }
-
-  for (let pass = 0; pass < n * 2; pass += 1) {
-    let improved = false
-    for (let i = 0; i < n; i += 1) {
-      if (conflicts(i) === 0) continue
-      const rowI = i % rows
-      for (let j = i + 1; j < n; j += 1) {
-        if (j % rows === rowI) continue
-        if (galleryGroupKey(result[j].file) === galleryGroupKey(result[i].file)) continue
-        const before = conflicts(i) + conflicts(j)
-        ;[result[i], result[j]] = [result[j], result[i]]
-        const after = conflicts(i) + conflicts(j)
-        if (after < before) {
-          improved = true
-          break
-        }
-        ;[result[i], result[j]] = [result[j], result[i]]
-      }
-    }
-    if (!improved) break
-  }
-  return result
-}
-
 /** Gallery grid: avoid neighbors that share a batch (left/right and above). */
 function spreadGalleryGrid(photos, columns = 3) {
   const result = [...photos]
@@ -137,6 +97,57 @@ function spreadGalleryGrid(photos, columns = 3) {
 
 export function orderGalleryPhotos(photos) {
   const interleaved = roundRobinByGroup(photos)
-  const forFilm = spreadFilmStripRows(interleaved, 3)
-  return spreadGalleryGrid(forFilm, 3)
+  return spreadGalleryGrid(interleaved, 3)
+}
+
+function pickWithDifferentGroup(queue, avoid) {
+  if (!queue.length) return null
+  if (!avoid) return queue.shift()
+  const avoidKey = galleryGroupKey(avoid.file)
+  const idx = queue.findIndex((p) => galleryGroupKey(p.file) !== avoidKey)
+  if (idx === -1) return queue.shift()
+  return queue.splice(idx, 1)[0]
+}
+
+/**
+ * Film strip is a 3-row column-major grid (tall = span 2).
+ * Pack columns as tall+short, short+tall, or short×3 so every column uses all three rows.
+ */
+export function packFilmStripColumns(photos, rows = 3) {
+  const spread = roundRobinByGroup(photos)
+  const tallQueue = spread.filter((p) => p.tall)
+  const shortQueue = spread.filter((p) => !p.tall)
+  const packed = []
+  let tallFirst = true
+
+  while (tallQueue.length > 0 && shortQueue.length > 0) {
+    if (tallFirst) {
+      const tall = tallQueue.shift()
+      const short = pickWithDifferentGroup(shortQueue, tall)
+      packed.push({ ...tall, stripTall: true })
+      packed.push({ ...short, stripTall: false })
+    } else {
+      const short = shortQueue.shift()
+      const tall = pickWithDifferentGroup(tallQueue, short)
+      packed.push({ ...short, stripTall: false })
+      packed.push({ ...tall, stripTall: true })
+    }
+    tallFirst = !tallFirst
+  }
+
+  while (shortQueue.length >= rows) {
+    for (let i = 0; i < rows; i += 1) {
+      packed.push({ ...shortQueue.shift(), stripTall: false })
+    }
+  }
+
+  while (shortQueue.length > 0) {
+    packed.push({ ...shortQueue.shift(), stripTall: false })
+  }
+
+  for (const tall of tallQueue) {
+    packed.push({ ...tall, stripTall: false })
+  }
+
+  return packed
 }

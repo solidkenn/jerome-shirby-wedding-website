@@ -1,11 +1,14 @@
-import { gallery } from '../data/wedding.js'
+import { filmStripGallery } from '../data/wedding.js'
 import './FilmStrip.css'
 
 function TileGrid({ decorative = false }) {
   return (
     <ul className="film-tileset" aria-hidden={decorative || undefined}>
-      {gallery.map((img, i) => (
-        <li key={`${decorative ? 'd-' : ''}${i}-${img.src}`} className={img.tall ? 'film-tileset__cell film-tileset__cell--tall' : 'film-tileset__cell'}>
+      {filmStripGallery.map((img, i) => (
+        <li
+          key={`${decorative ? 'd-' : ''}${i}-${img.src}`}
+          className={img.stripTall ? 'film-tileset__cell film-tileset__cell--tall' : 'film-tileset__cell'}
+        >
           <figure className="film-tileset__frame">
             <img src={img.src} alt={decorative ? '' : img.alt} loading="lazy" decoding="async" draggable={false} />
           </figure>
