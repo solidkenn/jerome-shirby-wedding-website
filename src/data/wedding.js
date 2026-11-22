@@ -141,31 +141,36 @@ export const story = [
   },
 ]
 
-// Replace these with your own photos: drop files into src/assets/gallery and import them here,
-// or point the src fields at any hosted image URL.
-// Tip: with two `tall` photos in positions 1 and 6 the grid fills evenly at 4, 3, and 1 columns.
-export const gallery = [
-  { src: '/gallery/js-01.jpg', alt: 'Jerome and Shirby at the ridge', tall: true },
-  { src: '/gallery/js-02.jpg', alt: 'Laughing together in the garden' },
-  { src: '/gallery/js-03.jpg', alt: 'A quiet moment' },
-  { src: '/gallery/js-04.jpg', alt: 'Walking hand in hand' },
-  { src: '/gallery/js-05.jpg', alt: 'Golden hour portraits' },
-  { src: '/gallery/js-06.jpg', alt: 'The ring', tall: true },
-  { src: '/gallery/js-07.jpg', alt: 'Dancing in the kitchen' },
-  { src: '/gallery/js-08.jpg', alt: 'Under the trees' },
-  { src: '/gallery/js-09.jpg', alt: 'Sunday coffee' },
-  { src: '/gallery/js-10.jpg', alt: 'Road trip to the coast' },
-  { src: '/gallery/js-11.jpg', alt: 'Sunset on the terrace' },
-  { src: '/gallery/js-12.jpg', alt: 'Bouquet details' },
-  { src: '/gallery/js-13.jpg', alt: 'Friends toasting at dinner' },
-  { src: '/gallery/js-14.jpg', alt: 'A quiet portrait by the window', tall: true },
-  { src: '/gallery/js-15.jpg', alt: 'Walking through the orchard' },
-  { src: '/gallery/js-16.jpg', alt: 'Table setting in candlelight' },
-  { src: '/gallery/js-17.jpg', alt: 'First dance rehearsal' },
-  { src: '/gallery/js-18.jpg', alt: 'Morning light in the garden' },
-  { src: '/gallery/js-19.jpg', alt: 'Looking out over the hills', tall: true },
-  { src: '/gallery/js-20.jpg', alt: 'Hands and the invitation' },
+// Photos live in public/gallery/. `tall` matches portrait orientation for the gallery grid and film strip.
+function gallerySrc(filename) {
+  return `/gallery/${encodeURIComponent(filename)}`
+}
+
+const galleryPhotos = [
+  { file: '20221223_112828.jpg', alt: 'Jerome and Shirby, December 2022', tall: true },
+  { file: '20240728_153016.jpg', alt: 'Jerome and Shirby, summer 2024', tall: true },
+  { file: '20240930_111331.jpg', alt: 'Jerome and Shirby, fall 2024', tall: true },
+  { file: '20240930_111719.jpg', alt: 'Jerome and Shirby by a glacial lake' },
+  { file: 'FB_IMG_1647630199521.jpg', alt: 'Jerome and Shirby, a candid moment' },
+  { file: 'IMG_0587.jpg', alt: 'Jerome and Shirby together' },
+  { file: 'IMG_0588.jpg', alt: 'Jerome and Shirby, out and about' },
+  { file: 'IMG_0591.jpg', alt: 'Jerome and Shirby smiling' },
+  { file: 'IMG_0595.jpg', alt: 'Jerome and Shirby, a favorite memory' },
+  { file: 'Image0577_002.jpg', alt: 'Jerome and Shirby at home' },
+  { file: 'received_1173829046333770.jpg', alt: 'Jerome and Shirby', tall: true },
+  { file: 'fxn 2026-10-04 175343FE35F23A23CE.jpg', alt: 'Jerome and Shirby', tall: true },
+  { file: 'fxn 2026-10-04 180100E80AD5A634AF.jpg', alt: 'Jerome and Shirby', tall: true },
+  { file: 'fxn 2026-10-04 1801110716FEC6561D.jpg', alt: 'Jerome and Shirby', tall: true },
+  { file: '20260712_105555.jpg', alt: 'Jerome and Shirby', tall: true },
+  { file: '20260726_170332.jpg', alt: 'Jerome and Shirby on an adventure' },
+  { file: '20260726_184320(1).jpg', alt: 'Jerome and Shirby, golden hour' },
 ]
+
+export const gallery = galleryPhotos.map(({ file, alt, tall }) => ({
+  src: gallerySrc(file),
+  alt,
+  ...(tall ? { tall: true } : {}),
+}))
 
 export const entourage = {
   parents: {
