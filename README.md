@@ -50,8 +50,14 @@ Set `tall: true` on portrait photos so they span two rows in the grid.
 ### Receiving RSVPs
 
 By default the form runs in demo mode and stores responses in the browser's `localStorage`.
-To receive real responses, create a form endpoint (Formspree, Getform, a Google Apps Script web app, etc.)
-and paste the URL into `rsvpEndpoint` in `src/data/wedding.js`. The form will POST JSON to it.
+Paste your Google Apps Script web app URL into `rsvpEndpoint` in `src/data/wedding.js`.
+
+### Digital invitations (Google Sheet)
+
+Guest list, HTML invitation emails, and a **Wedding** menu on the spreadsheet are documented in
+[`google-apps-script/README.md`](google-apps-script/README.md). Copy `google-apps-script/Code.gs` into your
+Apps Script project, run **Set up sheets**, add guests on **Guest List**, then send from the Sheet menu.
+Invitation links open `/rsvp` with name, email, and party size pre-filled.
 
 ## Build
 

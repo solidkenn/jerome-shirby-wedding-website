@@ -182,6 +182,7 @@ const galleryFiles = [
   { file: 'IMG_0607.jpg', tall: true },
   { file: 'IMG_0608.jpg' },
   { file: 'IMG_0609.jpg', tall: true },
+  { file: 'IMG_0635.jpg' },
   { file: 'Image0577_002.jpg' },
   { file: 'received_1173829046333770.jpg', tall: true },
   { file: 'fxn 2026-10-04 175343FE35F23A23CE.jpg', tall: true },

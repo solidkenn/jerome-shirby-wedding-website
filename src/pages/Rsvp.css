@@ -30,6 +30,87 @@
   gap: 1.4rem;
 }
 
+.field--lookup {
+  position: relative;
+}
+
+.rsvp-lookup {
+  position: relative;
+}
+
+.rsvp-lookup__list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0.35rem 0;
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  max-height: 16rem;
+  overflow: auto;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.rsvp-lookup__option {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.rsvp-lookup__option:hover,
+.rsvp-lookup__option:focus-visible {
+  background: var(--sage-pale);
+  outline: none;
+}
+
+.rsvp-lookup__option-name {
+  font-weight: 400;
+}
+
+.rsvp-lookup__option-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.rsvp-lookup__hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.field__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.rsvp__party-size {
+  margin: 0;
+  width: 100%;
+  font: inherit;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--sage-pale);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
 .field {
   display: grid;
   gap: 0.45rem;

@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { couple, rsvpDeadline, rsvpEndpoint, weddingDate } from '../data/wedding.js'
+import { initialRsvpFromInviteSearch } from '../lib/rsvpInvite.js'
+import { lookupGuests, normalizeGuestName } from '../lib/rsvpLookup.js'
+import { useGuestNameLookup } from '../lib/useGuestNameLookup.js'
 import PageHero from '../components/PageHero.jsx'
 import Ornament from '../components/Ornament.jsx'
 import './Rsvp.css'
@@ -8,22 +11,69 @@ import './Rsvp.css'
 const deadline = rsvpDeadline.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 const longDate = weddingDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 
-const initial = {
-  name: '',
-  email: '',
-  attending: 'yes',
-  guests: '1',
-  guestNames: [],
-  message: '',
-}
-
 export default function Rsvp() {
+  const initial = useMemo(() => initialRsvpFromInviteSearch(), [])
   const [form, setForm] = useState(initial)
+  const invited = Boolean(initial.name || initial.email)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [partyCap, setPartyCap] = useState(() => {
+    const n = Number(initial.guests)
+    return n >= 1 && n <= 6 ? n : null
+  })
+  /** Canonical guest-list name after the user picks a suggestion (required to submit). */
+  const [listName, setListName] = useState(null)
+  const { suggestions, open, loading, dismiss, setOpen } = useGuestNameLookup(rsvpEndpoint, form.name)
+
+  useEffect(() => {
+    if (!rsvpEndpoint || !initial.name.trim()) return
+    lookupGuests(rsvpEndpoint, initial.name).then((results) => {
+      const exact = results.find((r) => normalizeGuestName(r.name) === normalizeGuestName(initial.name))
+      if (exact) {
+        setListName(exact.name)
+        setPartyCap(exact.partySize ?? null)
+      }
+    })
+  }, [initial.name])
+
+  const partySizeLocked = Boolean(listName && partyCap)
+
+  const applyGuestMatch = (match) => {
+    const partySize = String(match.partySize ?? 1)
+    const need = Math.max(0, Number(partySize) - 1)
+    setPartyCap(match.partySize ?? null)
+    setListName(match.name)
+    setForm((f) => ({
+      ...f,
+      name: match.name,
+      guests: partySize,
+      guestNames: Array.from({ length: need }, (_, i) => f.guestNames?.[i] ?? ''),
+      ...(match.email && !f.email.trim() ? { email: match.email } : {}),
+    }))
+    dismiss()
+    setErrors((er) => {
+      const next = { ...er }
+      delete next.name
+      if (match.email) delete next.email
+      return next
+    })
+  }
 
   const update = (e) => {
     const { name, value } = e.target
+    if (name === 'name') {
+      setPartyCap(null)
+      setListName(null)
+      setForm((f) => ({
+        ...f,
+        name: value,
+        guests: '1',
+        guestNames: [],
+      }))
+      if (errors.name) setErrors((er) => ({ ...er, name: undefined }))
+      setOpen(true)
+      return
+    }
     if (name === 'guests') {
       const n = Number(value)
       const need = Math.max(0, n - 1)
@@ -58,14 +108,19 @@ export default function Rsvp() {
   const validate = () => {
     const next = {}
     if (!form.name.trim()) next.name = 'Please tell us your name.'
+    else if (rsvpEndpoint) {
+      if (
+        !listName ||
+        normalizeGuestName(form.name) !== normalizeGuestName(listName)
+      ) {
+        next.name = 'Please select your name from the guest list suggestions.'
+      }
+    }
     if (!form.email.trim()) next.email = 'Please enter your email.'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = 'That email does not look right.'
-    if (form.attending === 'yes') {
-      const plusCount = Math.max(0, Number(form.guests) - 1)
-      for (let i = 0; i < plusCount; i++) {
-        if (!(form.guestNames?.[i] || '').trim()) {
-          next[`guestName-${i}`] = 'Please enter this guest’s name.'
-        }
+    if (form.attending === 'yes' && rsvpEndpoint && partySizeLocked) {
+      if (Number(form.guests) !== partyCap) {
+        next.name = 'Please select your name again from the guest list.'
       }
     }
     return next
@@ -79,8 +134,13 @@ export default function Rsvp() {
 
     setStatus('sending')
     const payload = {
-      ...form,
+      name: listName || form.name.trim(),
+      email: form.email,
+      attending: form.attending,
+      guests: form.guests,
       guestNames: form.attending === 'yes' ? (form.guestNames || []).slice(0, Math.max(0, Number(form.guests) - 1)) : [],
+      message: form.message,
+      ...(form.invite ? { invite: form.invite } : {}),
       submittedAt: new Date().toISOString(),
     }
 
@@ -158,23 +218,58 @@ export default function Rsvp() {
                   {couple.groom} &amp; {couple.bride}
                 </h2>
                 <p className="rsvp__intro-text">
-                  Please fill in one form per household. Let us know how many from your party will be joining.
+                  {invited
+                    ? 'We filled in your details from your invitation link. Please confirm or update them below.'
+                    : 'Type your name as it appears on the guest list, then tap your entry from the suggestions. Only invited guests on the list can RSVP. Name and email are required.'}
                 </p>
               </div>
 
-              <div className="field">
+              <div className="field field--lookup">
                 <label htmlFor="name">Full name</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  value={form.name}
-                  onChange={update}
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? 'name-error' : undefined}
-                  placeholder="Juan Dela Cruz"
-                />
+                <div className="rsvp-lookup">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    value={form.name}
+                    onChange={update}
+                    onFocus={() => suggestions.length > 0 && setOpen(true)}
+                    onBlur={() => setTimeout(dismiss, 180)}
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded={open}
+                    aria-controls="rsvp-guest-suggestions"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
+                    placeholder="Type your name to search the guest list"
+                  />
+                  {open && suggestions.length > 0 && (
+                    <ul className="rsvp-lookup__list" id="rsvp-guest-suggestions" role="listbox">
+                      {suggestions.map((match) => (
+                        <li key={match.name} role="presentation">
+                          <button
+                            type="button"
+                            className="rsvp-lookup__option"
+                            role="option"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => applyGuestMatch(match)}
+                          >
+                            <span className="rsvp-lookup__option-name">{match.name}</span>
+                            <span className="rsvp-lookup__option-meta">
+                              Party of {match.partySize}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {loading && form.name.trim().length >= 2 && (
+                    <p className="rsvp-lookup__hint" aria-live="polite">
+                      Searching guest list…
+                    </p>
+                  )}
+                </div>
                 {errors.name && (
                   <p id="name-error" className="field__error">
                     {errors.name}
@@ -219,18 +314,24 @@ export default function Rsvp() {
               {attending && (
                 <>
                   <div className="field">
-                    <label htmlFor="guests">Number of guests (including you)</label>
-                    <select id="guests" name="guests" value={form.guests} onChange={update}>
-                      {[1, 2, 3, 4, 5, 6].map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </select>
+                    <label htmlFor="guests-display">Party size</label>
+                    {partySizeLocked ? (
+                      <>
+                        <p id="guests-display" className="rsvp__party-size">
+                          {partyCap} {partyCap === 1 ? 'guest' : 'guests'} in your party (from guest list)
+                        </p>
+                        <input type="hidden" name="guests" value={form.guests} readOnly />
+                      </>
+                    ) : (
+                      <p id="guests-display" className="field__hint">
+                        Select your name from the guest list above to show your party size.
+                      </p>
+                    )}
                   </div>
 
-                  {plusGuestCount > 0 && (
+                  {partySizeLocked && plusGuestCount > 0 && (
                     <div className="rsvp__guest-names">
+                      <p className="field__hint">Additional guest names are optional but help us with seating.</p>
                       {Array.from({ length: plusGuestCount }, (_, i) => {
                         const id = `guestName-${i}`
                         const errKey = `guestName-${i}`
