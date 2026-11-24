@@ -2,7 +2,7 @@
 
 import {
   orderGalleryPhotos,
-  packFilmStripUniform,
+  packFilmStripDesktop,
   packFilmStripWithPortraitSpans,
 } from '../lib/galleryOrder.js'
 
@@ -206,15 +206,16 @@ export const gallery = orderGalleryPhotos(galleryPhotos).map(({ file, alt, tall 
   ...(tall ? { tall: true } : {}),
 }))
 
-export function buildFilmStripGallery(variant = 'uniform') {
+export function buildFilmStripGallery(variant = 'desktop') {
   const packed =
     variant === 'portrait'
       ? packFilmStripWithPortraitSpans(galleryPhotos)
-      : packFilmStripUniform(galleryPhotos)
-  return packed.map(({ file, alt, stripTall }) => ({
+      : packFilmStripDesktop(galleryPhotos)
+  return packed.map(({ file, alt, stripTall, gridColumn, gridRow, rowSpan }) => ({
     src: gallerySrc(file),
     alt,
     stripTall: Boolean(stripTall),
+    ...(gridColumn ? { placement: { gridColumn, gridRow: `${gridRow} / span ${rowSpan}` } } : {}),
   }))
 }
 

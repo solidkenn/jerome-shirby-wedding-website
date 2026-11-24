@@ -25,6 +25,7 @@ function TileGrid({ images, decorative = false }) {
         <li
           key={`${decorative ? 'd-' : ''}${i}-${img.src}`}
           className={img.stripTall ? 'film-tileset__cell film-tileset__cell--tall' : 'film-tileset__cell'}
+          style={img.placement}
         >
           <figure className="film-tileset__frame">
             <img src={img.src} alt={decorative ? '' : img.alt} loading="lazy" decoding="async" draggable={false} />
@@ -38,7 +39,7 @@ function TileGrid({ images, decorative = false }) {
 export default function FilmStrip() {
   const isMobile = useIsMobileStrip()
   const images = useMemo(
-    () => buildFilmStripGallery(isMobile ? 'portrait' : 'uniform'),
+    () => buildFilmStripGallery(isMobile ? 'portrait' : 'desktop'),
     [isMobile],
   )
 

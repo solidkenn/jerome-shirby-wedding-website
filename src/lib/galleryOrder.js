@@ -100,17 +100,61 @@ export function orderGalleryPhotos(photos) {
   return spreadGalleryGrid(interleaved, 3)
 }
 
-/** Desktop: equal-height tiles in a 3-row dense grid (no span-2 gaps). */
-export function packFilmStripUniform(photos) {
-  return roundRobinByGroup(photos).map((p) => ({ ...p, stripTall: false }))
+/**
+ * Desktop: 3-row strip built column by column with explicit grid placement.
+ * Each column is tall+short, short+tall, or short×3, so no cell is left empty.
+ * When the counts cannot fill every column, the fewest possible portraits drop to a single row.
+ */
+export function packFilmStripDesktop(photos) {
+  const spread = roundRobinByGroup(photos)
+  const tallQueue = spread.filter((p) => p.tall)
+  const shortQueue = spread.filter((p) => !p.tall)
+  const total = spread.length
+
+  let tallCount = tallQueue.length
+  while (tallCount > 0 && (total - 2 * tallCount) % 3 !== 0) tallCount -= 1
+  if ((total - 2 * tallCount) % 3 !== 0 || total - 2 * tallCount < 0) tallCount = 0
+
+  shortQueue.push(...tallQueue.splice(tallCount))
+
+  const pairColumns = tallCount
+  const tripleColumns = Math.floor((total - 2 * tallCount) / 3)
+  const columnCount = pairColumns + tripleColumns
+
+  const packed = []
+  let tallOnTop = true
+  for (let col = 0; col < columnCount; col += 1) {
+    const isTriple =
+      tripleColumns > 0 &&
+      Math.floor(((col + 1) * tripleColumns) / columnCount) > Math.floor((col * tripleColumns) / columnCount)
+    const column = col + 1
+
+    if (isTriple || tallQueue.length === 0) {
+      for (let row = 1; row <= 3 && shortQueue.length; row += 1) {
+        packed.push({ ...shortQueue.shift(), stripTall: false, gridColumn: column, gridRow: row, rowSpan: 1 })
+      }
+      continue
+    }
+
+    const tall = tallQueue.shift()
+    const shortIdx = shortQueue.findIndex((p) => galleryGroupKey(p.file) !== galleryGroupKey(tall.file))
+    const short = shortQueue.splice(shortIdx === -1 ? 0 : shortIdx, 1)[0]
+    const tallRow = tallOnTop ? 1 : 2
+    const shortRow = tallOnTop ? 3 : 1
+    packed.push({ ...tall, stripTall: true, gridColumn: column, gridRow: tallRow, rowSpan: 2 })
+    packed.push({ ...short, stripTall: false, gridColumn: column, gridRow: shortRow, rowSpan: 1 })
+    tallOnTop = !tallOnTop
+  }
+
+  const leftovers = [...tallQueue, ...shortQueue]
+  leftovers.forEach((p, i) => {
+    packed.push({ ...p, stripTall: false, gridColumn: columnCount + 1, gridRow: i + 1, rowSpan: 1 })
+  })
+
+  return packed
 }
 
 /** Mobile: spread order with portrait cells spanning 2 rows (original strip look). */
 export function packFilmStripWithPortraitSpans(photos) {
   return roundRobinByGroup(photos).map((p) => ({ ...p, stripTall: Boolean(p.tall) }))
-}
-
-/** @deprecated Use packFilmStripUniform or packFilmStripWithPortraitSpans. */
-export function packFilmStripColumns(photos, rows = 3) {
-  return rows === 2 ? packFilmStripWithPortraitSpans(photos) : packFilmStripUniform(photos)
 }
