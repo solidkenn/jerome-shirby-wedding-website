@@ -100,86 +100,17 @@ export function orderGalleryPhotos(photos) {
   return spreadGalleryGrid(interleaved, 3)
 }
 
-function pickWithDifferentGroup(queue, avoid) {
-  if (!queue.length) return null
-  if (!avoid) return queue.shift()
-  const avoidKey = galleryGroupKey(avoid.file)
-  const idx = queue.findIndex((p) => galleryGroupKey(p.file) !== avoidKey)
-  if (idx === -1) return queue.shift()
-  return queue.splice(idx, 1)[0]
+/** Desktop: equal-height tiles in a 3-row dense grid (no span-2 gaps). */
+export function packFilmStripUniform(photos) {
+  return roundRobinByGroup(photos).map((p) => ({ ...p, stripTall: false }))
 }
 
-/** Two-row mobile strip: uniform tiles, pairs fill each column (no span-2). */
-function packFilmStripTwoRow(photos) {
-  const spread = roundRobinByGroup(photos)
-  const packed = []
-  let i = 0
-  while (i < spread.length) {
-    packed.push({ ...spread[i], stripTall: false })
-    if (i + 1 < spread.length) {
-      packed.push({ ...spread[i + 1], stripTall: false })
-      i += 2
-    } else {
-      i += 1
-    }
-  }
-  return packed
+/** Mobile: spread order with portrait cells spanning 2 rows (original strip look). */
+export function packFilmStripWithPortraitSpans(photos) {
+  return roundRobinByGroup(photos).map((p) => ({ ...p, stripTall: Boolean(p.tall) }))
 }
 
-/**
- * Film strip column-major grid. Tall = span 2 on desktop (3 rows).
- * Pack as short×3 columns, tall+short pairs, or leftover singles without span-2.
- */
+/** @deprecated Use packFilmStripUniform or packFilmStripWithPortraitSpans. */
 export function packFilmStripColumns(photos, rows = 3) {
-  if (rows === 2) return packFilmStripTwoRow(photos)
-
-  const spread = roundRobinByGroup(photos)
-  const tallQueue = spread.filter((p) => p.tall)
-  const shortQueue = spread.filter((p) => !p.tall)
-  const packed = []
-  let tallFirst = true
-
-  while (shortQueue.length >= rows && shortQueue.length > tallQueue.length) {
-    for (let i = 0; i < rows; i += 1) {
-      packed.push({ ...shortQueue.shift(), stripTall: false })
-    }
-  }
-
-  while (tallQueue.length > 0 && shortQueue.length > 0) {
-    if (tallFirst) {
-      const tall = tallQueue.shift()
-      const short = pickWithDifferentGroup(shortQueue, tall)
-      packed.push({ ...tall, stripTall: true })
-      packed.push({ ...short, stripTall: false })
-    } else {
-      const short = shortQueue.shift()
-      const tall = pickWithDifferentGroup(tallQueue, short)
-      packed.push({ ...short, stripTall: false })
-      packed.push({ ...tall, stripTall: true })
-    }
-    tallFirst = !tallFirst
-  }
-
-  while (shortQueue.length >= rows) {
-    for (let i = 0; i < rows; i += 1) {
-      packed.push({ ...shortQueue.shift(), stripTall: false })
-    }
-  }
-
-  while (tallQueue.length > 0 && shortQueue.length > 0) {
-    const tall = tallQueue.shift()
-    const short = pickWithDifferentGroup(shortQueue, tall)
-    packed.push({ ...tall, stripTall: true })
-    packed.push({ ...short, stripTall: false })
-  }
-
-  while (shortQueue.length > 0) {
-    packed.push({ ...shortQueue.shift(), stripTall: false })
-  }
-
-  for (const tall of tallQueue) {
-    packed.push({ ...tall, stripTall: false })
-  }
-
-  return packed
+  return rows === 2 ? packFilmStripWithPortraitSpans(photos) : packFilmStripUniform(photos)
 }

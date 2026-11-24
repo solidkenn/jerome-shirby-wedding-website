@@ -4,18 +4,18 @@ import './FilmStrip.css'
 
 const MOBILE_STRIP_MQ = '(max-width: 480px)'
 
-function useFilmStripRows() {
-  const [rows, setRows] = useState(3)
+function useIsMobileStrip() {
+  const [mobile, setMobile] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_STRIP_MQ)
-    const sync = () => setRows(mq.matches ? 2 : 3)
+    const sync = () => setMobile(mq.matches)
     sync()
     mq.addEventListener('change', sync)
     return () => mq.removeEventListener('change', sync)
   }, [])
 
-  return rows
+  return mobile
 }
 
 function TileGrid({ images, decorative = false }) {
@@ -36,8 +36,11 @@ function TileGrid({ images, decorative = false }) {
 }
 
 export default function FilmStrip() {
-  const rows = useFilmStripRows()
-  const images = useMemo(() => buildFilmStripGallery(rows), [rows])
+  const isMobile = useIsMobileStrip()
+  const images = useMemo(
+    () => buildFilmStripGallery(isMobile ? 'portrait' : 'uniform'),
+    [isMobile],
+  )
 
   return (
     <div className="film-strip">

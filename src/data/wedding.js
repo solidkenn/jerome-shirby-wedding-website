@@ -1,6 +1,10 @@
 // Central place for all wedding content. Edit the values here and every page updates.
 
-import { orderGalleryPhotos, packFilmStripColumns } from '../lib/galleryOrder.js'
+import {
+  orderGalleryPhotos,
+  packFilmStripUniform,
+  packFilmStripWithPortraitSpans,
+} from '../lib/galleryOrder.js'
 
 export const couple = {
   groom: 'Jerome',
@@ -202,16 +206,17 @@ export const gallery = orderGalleryPhotos(galleryPhotos).map(({ file, alt, tall 
   ...(tall ? { tall: true } : {}),
 }))
 
-export function buildFilmStripGallery(rows = 3) {
-  return packFilmStripColumns(galleryPhotos, rows).map(({ file, alt, stripTall }) => ({
+export function buildFilmStripGallery(variant = 'uniform') {
+  const packed =
+    variant === 'portrait'
+      ? packFilmStripWithPortraitSpans(galleryPhotos)
+      : packFilmStripUniform(galleryPhotos)
+  return packed.map(({ file, alt, stripTall }) => ({
     src: gallerySrc(file),
     alt,
     stripTall: Boolean(stripTall),
   }))
 }
-
-/** @deprecated Use buildFilmStripGallery(rows) from FilmStrip for responsive packing. */
-export const filmStripGallery = buildFilmStripGallery(3)
 
 export const entourage = {
   parents: {
