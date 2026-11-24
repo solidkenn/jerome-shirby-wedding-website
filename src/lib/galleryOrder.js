@@ -109,16 +109,41 @@ function pickWithDifferentGroup(queue, avoid) {
   return queue.splice(idx, 1)[0]
 }
 
+/** Two-row mobile strip: uniform tiles, pairs fill each column (no span-2). */
+function packFilmStripTwoRow(photos) {
+  const spread = roundRobinByGroup(photos)
+  const packed = []
+  let i = 0
+  while (i < spread.length) {
+    packed.push({ ...spread[i], stripTall: false })
+    if (i + 1 < spread.length) {
+      packed.push({ ...spread[i + 1], stripTall: false })
+      i += 2
+    } else {
+      i += 1
+    }
+  }
+  return packed
+}
+
 /**
- * Film strip is a 3-row column-major grid (tall = span 2).
- * Pack columns as tall+short, short+tall, or short×3 so every column uses all three rows.
+ * Film strip column-major grid. Tall = span 2 on desktop (3 rows).
+ * Pack as short×3 columns, tall+short pairs, or leftover singles without span-2.
  */
 export function packFilmStripColumns(photos, rows = 3) {
+  if (rows === 2) return packFilmStripTwoRow(photos)
+
   const spread = roundRobinByGroup(photos)
   const tallQueue = spread.filter((p) => p.tall)
   const shortQueue = spread.filter((p) => !p.tall)
   const packed = []
   let tallFirst = true
+
+  while (shortQueue.length >= rows && shortQueue.length > tallQueue.length) {
+    for (let i = 0; i < rows; i += 1) {
+      packed.push({ ...shortQueue.shift(), stripTall: false })
+    }
+  }
 
   while (tallQueue.length > 0 && shortQueue.length > 0) {
     if (tallFirst) {
@@ -139,6 +164,13 @@ export function packFilmStripColumns(photos, rows = 3) {
     for (let i = 0; i < rows; i += 1) {
       packed.push({ ...shortQueue.shift(), stripTall: false })
     }
+  }
+
+  while (tallQueue.length > 0 && shortQueue.length > 0) {
+    const tall = tallQueue.shift()
+    const short = pickWithDifferentGroup(shortQueue, tall)
+    packed.push({ ...tall, stripTall: true })
+    packed.push({ ...short, stripTall: false })
   }
 
   while (shortQueue.length > 0) {

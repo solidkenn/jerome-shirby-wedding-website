@@ -92,8 +92,9 @@
     grid-template-rows: repeat(2, var(--tile-h));
   }
 
+  /* Mobile uses 2-row packing with uniform tiles — no span-2 cells. */
   .film-tileset__cell--tall {
-    grid-row: span 2;
+    grid-row: span 1;
   }
 }
 

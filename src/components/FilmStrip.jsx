@@ -1,10 +1,27 @@
-import { filmStripGallery } from '../data/wedding.js'
+import { useEffect, useMemo, useState } from 'react'
+import { buildFilmStripGallery } from '../data/wedding.js'
 import './FilmStrip.css'
 
-function TileGrid({ decorative = false }) {
+const MOBILE_STRIP_MQ = '(max-width: 480px)'
+
+function useFilmStripRows() {
+  const [rows, setRows] = useState(3)
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_STRIP_MQ)
+    const sync = () => setRows(mq.matches ? 2 : 3)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  return rows
+}
+
+function TileGrid({ images, decorative = false }) {
   return (
     <ul className="film-tileset" aria-hidden={decorative || undefined}>
-      {filmStripGallery.map((img, i) => (
+      {images.map((img, i) => (
         <li
           key={`${decorative ? 'd-' : ''}${i}-${img.src}`}
           className={img.stripTall ? 'film-tileset__cell film-tileset__cell--tall' : 'film-tileset__cell'}
@@ -19,13 +36,16 @@ function TileGrid({ decorative = false }) {
 }
 
 export default function FilmStrip() {
+  const rows = useFilmStripRows()
+  const images = useMemo(() => buildFilmStripGallery(rows), [rows])
+
   return (
     <div className="film-strip">
       <div className="film-strip__perfs film-strip__perfs--top" aria-hidden="true" />
       <div className="film-strip__viewport">
         <div className="film-strip__track">
-          <TileGrid />
-          <TileGrid decorative />
+          <TileGrid images={images} />
+          <TileGrid images={images} decorative />
         </div>
       </div>
       <div className="film-strip__perfs film-strip__perfs--bottom" aria-hidden="true" />

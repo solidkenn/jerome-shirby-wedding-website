@@ -202,11 +202,16 @@ export const gallery = orderGalleryPhotos(galleryPhotos).map(({ file, alt, tall 
   ...(tall ? { tall: true } : {}),
 }))
 
-export const filmStripGallery = packFilmStripColumns(galleryPhotos).map(({ file, alt, stripTall }) => ({
-  src: gallerySrc(file),
-  alt,
-  stripTall: Boolean(stripTall),
-}))
+export function buildFilmStripGallery(rows = 3) {
+  return packFilmStripColumns(galleryPhotos, rows).map(({ file, alt, stripTall }) => ({
+    src: gallerySrc(file),
+    alt,
+    stripTall: Boolean(stripTall),
+  }))
+}
+
+/** @deprecated Use buildFilmStripGallery(rows) from FilmStrip for responsive packing. */
+export const filmStripGallery = buildFilmStripGallery(3)
 
 export const entourage = {
   parents: {
