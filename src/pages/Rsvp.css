@@ -22,7 +22,7 @@
 .rsvp__intro-text {
   color: var(--muted);
   max-width: 46ch;
-  margin-inline: auto;
+  margin: 0 auto;
 }
 
 .rsvp__guest-names {
@@ -96,6 +96,11 @@
   font-size: 0.82rem;
   color: var(--muted);
   line-height: 1.45;
+}
+
+.rsvp__party-guest-hint {
+  margin-top: 0.65rem;
+  max-width: 52ch;
 }
 
 .rsvp__party-size {

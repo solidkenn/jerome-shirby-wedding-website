@@ -40,9 +40,8 @@ export default function Gallery() {
           <ul className="gallery">
             {gallery.map((img, i) => (
               <li className={img.tall ? 'gallery__item gallery__item--tall' : 'gallery__item'} key={img.src}>
-                <button className="gallery__btn" onClick={() => setActive(i)} aria-label={`Open photo: ${img.alt}`}>
-                  <img src={img.src} alt={img.alt} loading="lazy" />
-                  <span className="gallery__caption">{img.alt}</span>
+                <button className="gallery__btn" onClick={() => setActive(i)} aria-label={`Open photo ${i + 1} of ${gallery.length}`}>
+                  <img src={img.src} alt="" loading="lazy" />
                 </button>
               </li>
             ))}
@@ -66,13 +65,10 @@ export default function Gallery() {
             &#8249;
           </button>
           <figure className="lightbox__figure" onClick={(e) => e.stopPropagation()}>
-            <img src={gallery[active].src} alt={gallery[active].alt} />
-            <figcaption>
-              {gallery[active].alt}
-              <span className="lightbox__count">
-                {active + 1} / {gallery.length}
-              </span>
-            </figcaption>
+            <img src={gallery[active].src} alt="" />
+            <p className="lightbox__count" aria-live="polite">
+              {active + 1} / {gallery.length}
+            </p>
           </figure>
           <button
             className="lightbox__nav lightbox__nav--next"

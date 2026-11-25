@@ -217,11 +217,16 @@ export default function Rsvp() {
                 <h2>
                   {couple.groom} &amp; {couple.bride}
                 </h2>
+                {invited && (
+                  <p className="rsvp__intro-text">
+                    We filled in your details from your invitation link. Please confirm or update them below.
+                  </p>
+                )}
                 <p className="rsvp__intro-text">
-                  {invited
-                    ? 'We filled in your details from your invitation link. Please confirm or update them below.'
-                    : 'Type your name as it appears on the guest list, then tap your entry from the suggestions. Only invited guests on the list can RSVP. Name and email are required.'}
+                  Please enter your first and last name, then select your name from the suggestions. Both your name
+                  and email address are required to complete your RSVP.
                 </p>
+                <p className="rsvp__intro-text">Kindly note that this invitation is intended for invited guests only.</p>
               </div>
 
               <div className="field field--lookup">
@@ -321,6 +326,12 @@ export default function Rsvp() {
                           {partyCap} {partyCap === 1 ? 'guest' : 'guests'} in your party (from guest list)
                         </p>
                         <input type="hidden" name="guests" value={form.guests} readOnly />
+                        {plusGuestCount > 0 && (
+                          <p className="field__hint rsvp__party-guest-hint">
+                            Please indicate the name of your guest to help us with our seating arrangements.{' '}
+                            <strong>If you will not be bringing a guest, kindly enter N/A.</strong>
+                          </p>
+                        )}
                       </>
                     ) : (
                       <p id="guests-display" className="field__hint">
@@ -331,7 +342,6 @@ export default function Rsvp() {
 
                   {partySizeLocked && plusGuestCount > 0 && (
                     <div className="rsvp__guest-names">
-                      <p className="field__hint">Additional guest names are optional but help us with seating.</p>
                       {Array.from({ length: plusGuestCount }, (_, i) => {
                         const id = `guestName-${i}`
                         const errKey = `guestName-${i}`
@@ -349,7 +359,7 @@ export default function Rsvp() {
                               onChange={(e) => updateGuestName(i, e.target.value)}
                               aria-invalid={!!errors[errKey]}
                               aria-describedby={errors[errKey] ? `${id}-error` : undefined}
-                              placeholder="Full name"
+                              placeholder="Full name or N/A"
                             />
                             {errors[errKey] && (
                               <p id={`${id}-error`} className="field__error">
