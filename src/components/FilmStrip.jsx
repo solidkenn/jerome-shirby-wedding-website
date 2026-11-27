@@ -28,7 +28,14 @@ function TileGrid({ images, decorative = false }) {
           style={img.placement}
         >
           <figure className="film-tileset__frame">
-            <img src={img.src} alt={decorative ? '' : img.alt} loading="lazy" decoding="async" draggable={false} />
+            <img
+              src={img.src}
+              alt={decorative ? '' : img.alt}
+              loading={decorative ? 'lazy' : 'eager'}
+              decoding="async"
+              fetchPriority={decorative ? 'low' : 'high'}
+              draggable={false}
+            />
           </figure>
         </li>
       ))}

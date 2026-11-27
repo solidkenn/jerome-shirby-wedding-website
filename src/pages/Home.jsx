@@ -3,7 +3,7 @@ import { couple, weddingDate, events, rsvpDeadline } from '../data/wedding.js'
 import FilmStrip from '../components/FilmStrip.jsx'
 import AddToCalendar from '../components/AddToCalendar.jsx'
 import Countdown from '../components/Countdown.jsx'
-import Ornament from '../components/Ornament.jsx'
+import HeroDecor, { HeroCoupleCrest, HeroDivider } from '../components/HeroDecor.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import './Home.css'
 
@@ -33,24 +33,22 @@ export default function Home() {
         <div className="hero__bg" aria-hidden="true">
           <span className="hero__orb hero__orb--sage" />
           <span className="hero__orb hero__orb--merlot" />
-          <svg className="hero__vine hero__vine--left" viewBox="0 0 200 600" fill="none" stroke="currentColor" strokeWidth="1.1">
-            <VinePath />
-          </svg>
-          <svg className="hero__vine hero__vine--right" viewBox="0 0 200 600" fill="none" stroke="currentColor" strokeWidth="1.1">
-            <VinePath />
-          </svg>
+          <HeroDecor />
         </div>
 
         <div className="container hero__content">
-          <h1 className="hero__names fade-up">
-            <span className="script">{couple.groom}</span>
-            <span className="hero__amp">&amp;</span>
-            <span className="script">{couple.bride}</span>
-          </h1>
+          <div className="hero__crest">
+            <HeroCoupleCrest />
+            <h1 className="hero__names fade-up">
+              <span className="script">{couple.groom}</span>
+              <span className="hero__amp">&amp;</span>
+              <span className="script">{couple.bride}</span>
+            </h1>
+          </div>
           <p className="hero__invite fade-up" data-delay="2">
             invite you to celebrate their wedding
           </p>
-          <Ornament tone="light" className="fade-up" />
+          <HeroDivider className="fade-up" />
           <p className="hero__date fade-up" data-delay="2">
             {longDate}
           </p>
@@ -150,24 +148,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-    </>
-  )
-}
-
-function VinePath() {
-  return (
-    <>
-      <path d="M100 600 C 60 520, 140 460, 100 380 S 60 240, 100 160 S 130 60, 100 0" />
-      {[560, 500, 440, 380, 320, 260, 200, 140, 80].map((y, i) => {
-        const dir = i % 2 === 0 ? 1 : -1
-        const x = 100 + dir * 6
-        return (
-          <path
-            key={y}
-            d={`M${x} ${y} C ${x + dir * 22} ${y - 14}, ${x + dir * 44} ${y - 16}, ${x + dir * 52} ${y - 4} C ${x + dir * 40} ${y + 8}, ${x + dir * 18} ${y + 8}, ${x} ${y} Z`}
-          />
-        )
-      })}
     </>
   )
 }

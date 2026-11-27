@@ -15,7 +15,7 @@ export const couple = {
 // Local time of the ceremony. Month is 0-indexed (1 = February).
 export const weddingDate = new Date(2027, 1, 21, 14, 0, 0)
 
-export const rsvpDeadline = new Date(2026, 10, 30)
+export const rsvpDeadline = new Date(2026, 11, 30)
 
 export const venueHall = "Arturo's Hall"
 
@@ -87,7 +87,7 @@ export const dressCode = {
 
 export const rsvpInfo = {
   reserved:
-    'We have reserved your seat/s as indicated on your invitation. The favor of your reply is requested by the 30th of November.',
+    'We have reserved your seat/s as indicated on your invitation. The favor of your reply is requested by the 30th of December.',
   confirm:
     'Kindly confirm your attendance with any of the following individuals, with the names of your attending guests to assist us in arranging your seating. You may also RSVP online using the form on this website.',
   contacts: [
@@ -284,5 +284,11 @@ export const rsvpEndpoint =
 export const guestPhotosEnabled = true
 export const uploadApiUrl = guestPhotosEnabled ? import.meta.env.VITE_UPLOAD_URL || '' : ''
 export const uploadMaxFiles = 10
+
+/** True from local midnight on the wedding calendar day onward. */
+export function isGuestPhotoUploadOpen(now = new Date()) {
+  const openAt = new Date(weddingDate.getFullYear(), weddingDate.getMonth(), weddingDate.getDate())
+  return now >= openAt
+}
 /** When true, the “Uploaded Photos” grid on Gallery is visible to guests. */
 export const showUploadedGallery = false

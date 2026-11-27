@@ -43,25 +43,9 @@
   left: -140px;
 }
 
-.hero__vine {
-  position: absolute;
-  top: 50%;
-  height: 92%;
-  transform: translateY(-50%);
-  color: var(--sage);
-  opacity: 0.32;
-}
-
-.hero__vine--left {
-  left: clamp(-60px, 2vw, 40px);
-}
-
-.hero__vine--right {
-  right: clamp(-60px, 2vw, 40px);
-  transform: translateY(-50%) scaleX(-1);
-}
-
 .hero__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +53,20 @@
   gap: 1.1rem;
 }
 
+.hero__crest {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  padding-bottom: 10.25rem;
+}
+
 .hero__names {
+  --hero-names-shift: 0.50em;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -79,6 +76,32 @@
   font-size: clamp(3.6rem, 11vw, 7.5rem);
   line-height: 1;
   font-weight: 400;
+  transform: translateY(var(--hero-names-shift));
+  text-shadow:
+    0 0 28px rgba(31, 54, 40, 0.7),
+    0 2px 10px rgba(12, 8, 5, 0.45);
+}
+
+/* Global .fade-up resets transform to 0 after its animation — override for hero names */
+.hero__names.fade-up {
+  animation: fadeUpHeroNames 0.7s ease both;
+}
+
+@keyframes fadeUpHeroNames {
+  from {
+    opacity: 0;
+    transform: translateY(calc(18px + var(--hero-names-shift)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(var(--hero-names-shift));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__names.fade-up {
+    animation: none;
+  }
 }
 
 .hero__amp {
@@ -90,6 +113,7 @@
 }
 
 .hero__invite {
+  margin-top: 1.75rem;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(1.15rem, 2.4vw, 1.5rem);
@@ -454,6 +478,10 @@
 }
 
 @media (max-width: 768px) {
+  .hero__crest {
+    padding-bottom: 5rem;
+  }
+
   .hero {
     padding: calc(6rem + env(safe-area-inset-top)) 0 5.5rem;
   }
@@ -468,10 +496,6 @@
     height: 300px;
   }
 
-  .hero__vine {
-    opacity: 0.18;
-  }
-
   .hero__place {
     max-width: 30ch;
     line-height: 1.6;
@@ -479,8 +503,8 @@
 }
 
 @media (max-width: 480px) {
-  .hero__vine {
-    display: none;
+  .hero__crest {
+    padding-bottom: 4.25rem;
   }
 
   .hero__place {

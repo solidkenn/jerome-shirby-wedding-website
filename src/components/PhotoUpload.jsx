@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { uploadApiUrl, uploadMaxFiles } from '../data/wedding.js'
+import { isGuestPhotoUploadOpen, uploadApiUrl, uploadMaxFiles } from '../data/wedding.js'
 import Ornament from './Ornament.jsx'
 import './PhotoUpload.css'
 
@@ -57,6 +57,8 @@ export default function PhotoUpload({ onUploaded }) {
   const [success, setSuccess] = useState(null)
 
   const configured = Boolean(uploadApiUrl)
+  const uploadOpen = isGuestPhotoUploadOpen()
+  const canUpload = configured && uploadOpen
 
   const clearSelection = () => {
     setFiles([])
@@ -99,7 +101,7 @@ export default function PhotoUpload({ onUploaded }) {
   }
 
   const submit = async () => {
-    if (!configured || !files.length || uploading) return
+    if (!canUpload || !files.length || uploading) return
 
     setUploading(true)
     setProgress(0)
@@ -172,28 +174,40 @@ export default function PhotoUpload({ onUploaded }) {
         </p>
       )}
 
+      {configured && !uploadOpen && (
+        <p className="photo-upload__notice photo-upload__notice--wedding-day" role="status">
+          This will be enabled on the day of the wedding.
+        </p>
+      )}
+
       <div
-        className={dragOver ? 'photo-upload__drop photo-upload__drop--over' : 'photo-upload__drop'}
+        className={
+          !canUpload
+            ? 'photo-upload__drop photo-upload__drop--disabled'
+            : dragOver
+              ? 'photo-upload__drop photo-upload__drop--over'
+              : 'photo-upload__drop'
+        }
         onDragOver={(e) => {
           e.preventDefault()
-          if (configured) setDragOver(true)
+          if (canUpload) setDragOver(true)
         }}
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => {
           e.preventDefault()
           setDragOver(false)
-          if (configured) pickFiles(e.dataTransfer.files)
+          if (canUpload) pickFiles(e.dataTransfer.files)
         }}
-        onClick={() => configured && inputRef.current?.click()}
+        onClick={() => canUpload && inputRef.current?.click()}
         onKeyDown={(e) => {
-          if (configured && (e.key === 'Enter' || e.key === ' ')) {
+          if (canUpload && (e.key === 'Enter' || e.key === ' ')) {
             e.preventDefault()
             inputRef.current?.click()
           }
         }}
         role="button"
-        tabIndex={configured ? 0 : -1}
-        aria-disabled={!configured}
+        tabIndex={canUpload ? 0 : -1}
+        aria-disabled={!canUpload}
       >
         <input
           ref={inputRef}
@@ -201,7 +215,7 @@ export default function PhotoUpload({ onUploaded }) {
           accept="image/*"
           multiple
           className="photo-upload__input"
-          disabled={!configured || uploading}
+          disabled={!canUpload || uploading}
           onChange={(e) => e.target.files?.length && pickFiles(e.target.files)}
         />
         <span className="photo-upload__drop-icon" aria-hidden="true">
@@ -212,7 +226,7 @@ export default function PhotoUpload({ onUploaded }) {
           </svg>
         </span>
         <p className="photo-upload__drop-label">
-          {configured ? 'Tap to choose photos or drag them here' : 'Upload unavailable'}
+          {canUpload ? 'Tap to choose photos or drag them here' : 'Upload unavailable'}
         </p>
         <p className="photo-upload__drop-hint">Images only · up to {uploadMaxFiles} at a time</p>
       </div>
@@ -272,7 +286,7 @@ export default function PhotoUpload({ onUploaded }) {
         </p>
       )}
 
-      {previews.length > 0 && configured && (
+      {previews.length > 0 && canUpload && (
         <button type="button" className="btn btn--primary photo-upload__submit" disabled={uploading} onClick={submit}>
           {uploading ? 'Uploading…' : previews.length === 1 ? 'Upload photo' : `Upload ${previews.length} photos`}
         </button>

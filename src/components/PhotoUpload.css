@@ -37,6 +37,22 @@
   font-size: 0.85em;
 }
 
+.photo-upload__drop--disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.photo-upload__drop--disabled:hover {
+  border-color: var(--line);
+  background: var(--cream);
+}
+
+.photo-upload__notice--wedding-day {
+  font-style: italic;
+  text-align: center;
+}
+
 .photo-upload__drop {
   position: relative;
   border: 2px dashed var(--line);

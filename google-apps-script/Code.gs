@@ -7,7 +7,7 @@ const SITE_URL = 'https://jerome-shirby-wedding-website.vercel.app';
 const COUPLE = 'Jerome & Shirby';
 const WEDDING_DATE = 'Sunday, February 21, 2027';
 const VENUE = 'Four Hills Villas and Events Place, Tagaytay';
-const RSVP_DEADLINE = 'November 30, 2026';
+const RSVP_DEADLINE = 'December 30, 2026';
 const HASHTAG = '#JeromeAndShirby';
 
 const COLORS = {

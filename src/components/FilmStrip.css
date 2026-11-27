@@ -36,8 +36,13 @@
 .film-strip__track {
   display: flex;
   width: max-content;
-  will-change: transform;
   animation: film-scroll 65s linear infinite;
+  backface-visibility: hidden;
+}
+
+.film-tileset__cell {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .film-strip:hover .film-strip__track,
@@ -68,22 +73,26 @@
   background: var(--film-band);
   border: 1px solid var(--film-edge);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  contain: paint;
 }
 
 .film-tileset__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
-  filter: saturate(0.94) contrast(1.02);
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 @keyframes film-scroll {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

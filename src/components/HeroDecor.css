@@ -1,0 +1,134 @@
+.hero-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-decor__side {
+  position: absolute;
+  top: 50%;
+  height: min(88%, 780px);
+  width: clamp(4.5rem, 11vw, 8.5rem);
+  object-fit: contain;
+  object-position: center;
+  overflow: visible;
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 18px rgba(12, 8, 5, 0.28));
+  pointer-events: none;
+}
+
+.hero-decor__side--left {
+  left: clamp(0px, 1.2vw, 22px);
+  transform: translateY(-50%);
+}
+
+.hero-decor__side--right {
+  right: clamp(0px, 1.2vw, 22px);
+  transform: translateY(-50%) scaleX(-1);
+}
+
+.hero-decor__corner {
+  position: absolute;
+  width: clamp(9rem, 22vw, 16rem);
+  height: auto;
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.hero-decor__corner--tl {
+  top: max(4.6rem, calc(env(safe-area-inset-top) + 3.6rem));
+  left: max(0.7rem, env(safe-area-inset-left));
+}
+
+.hero-decor__corner--tr {
+  top: max(4.6rem, calc(env(safe-area-inset-top) + 3.6rem));
+  right: max(0.7rem, env(safe-area-inset-right));
+  transform: scaleX(-1);
+}
+
+.hero-decor__corner--bl {
+  bottom: max(1.1rem, env(safe-area-inset-bottom));
+  left: max(0.7rem, env(safe-area-inset-left));
+  transform: scaleY(-1);
+}
+
+.hero-decor__corner--br {
+  bottom: max(1.1rem, env(safe-area-inset-bottom));
+  right: max(0.7rem, env(safe-area-inset-right));
+  transform: scale(-1);
+}
+
+.hero-crest {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 1.1rem);
+  width: min(24rem, 72vw);
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 12px 24px rgba(12, 8, 5, 0.28));
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  max-width: 22rem;
+  margin-inline: auto;
+}
+
+.hero-divider__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e8d5a3 18%, #c4a574 50%, #e8d5a3 82%, transparent);
+  opacity: 0.7;
+}
+
+.hero-divider svg {
+  flex-shrink: 0;
+  color: #e8d5a3;
+}
+
+@media (max-width: 1024px) {
+  .hero-decor__side {
+    opacity: 0.62;
+    width: clamp(4.6rem, 11vw, 7rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-decor__side {
+    opacity: 0.42;
+    width: 4.4rem;
+  }
+
+  .hero-decor__corner {
+    width: clamp(7.5rem, 28vw, 11rem);
+    opacity: 0.82;
+  }
+
+  .hero-crest {
+    width: min(22.5rem, 78vw);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-decor__side {
+    display: none;
+  }
+
+  .hero-decor__corner {
+    width: 7.25rem;
+    opacity: 0.78;
+  }
+
+  .hero-crest {
+    width: min(20rem, 88vw);
+    opacity: 0.9;
+  }
+}
